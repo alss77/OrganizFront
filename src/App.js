@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import {Provider} from 'react-redux';
 import store from './store';
-import Header from './components/header'
+import Header from './containers/header'
 
 function App() {
   return (
