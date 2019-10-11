@@ -37,7 +37,7 @@ export default function ProfileCard() {
     <Card style={{height: 400}}>
         <Container className={classes.header}>
          <Avatar className={classes.avatar} src="https://media.licdn.com/dms/image/C4D03AQFI8uKB9nzBSw/profile-displayphoto-shrink_800_800/0?e=1576108800&v=beta&t=qO8sarzqogO42OMj2a735JUDf4KGo5aaqOUasmw04IY" />
-         <Typography className={classes.headtext}>Alasse Fall</Typography>
+         <Typography className={classes.headtext}>El Bandito</Typography>
          </Container>
     </Card>
   );
