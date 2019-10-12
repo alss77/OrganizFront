@@ -35,7 +35,7 @@ export default function RecipeReviewCard() {
             justify="flex-start"
             alignItems="center"
             >
-        <Grid item xs={2} className={classes.urgency}></Grid>
+        <Grid item xs={2} style={{backgroundColor: 'red'}}></Grid>
         <Grid item xs>
       <CardHeader
         avatar={
@@ -100,9 +100,6 @@ const GreenCheckbox = withStyles({
   const useStyles = makeStyles(theme => ({
     card: {
       maxWidth: 345,
-    },
-    urgency: {
-        backgroundColor: 'red'
     },
     media: {
       height: 0,
