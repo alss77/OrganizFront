@@ -38,9 +38,9 @@ import addTask from '../actions/index'
     }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = store => {
     return {
-        taskList : state.taskListReducer.taskList
+        taskList : store.taskListReducer.taskList
     };
 };
 
