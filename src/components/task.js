@@ -17,6 +17,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Favorite from '@material-ui/icons/Favorite';
 import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
 import TaskButton from './task-button'
+import Grid from '@material-ui/core/Grid';
 
 export default function RecipeReviewCard() {
   const classes = useStyles();
@@ -28,6 +29,14 @@ export default function RecipeReviewCard() {
 
   return (
     <Card className={classes.card}>
+        <Grid
+            container
+            direction="row"
+            justify="flex-start"
+            alignItems="center"
+            >
+        <Grid item xs={2} className={classes.urgency}></Grid>
+        <Grid item xs>
       <CardHeader
         avatar={
           <Avatar aria-label="Task" className={classes.avatar}>
@@ -64,6 +73,8 @@ export default function RecipeReviewCard() {
           <ExpandMoreIcon />
         </IconButton>
       </CardActions>
+      </Grid>
+      </Grid>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
           <Typography paragraph>Description:</Typography>
@@ -90,16 +101,19 @@ const GreenCheckbox = withStyles({
     card: {
       maxWidth: 345,
     },
+    urgency: {
+        backgroundColor: 'red'
+    },
     media: {
       height: 0,
       paddingTop: '56.25%', // 16:9
     },
     expand: {
-      transform: 'rotate(0deg)',
-      marginLeft: 'auto',
-      transition: theme.transitions.create('transform', {
-        duration: theme.transitions.duration.shortest,
-      }),
+        transform: 'rotate(0deg)',
+        marginLeft: 'auto',
+        transition: theme.transitions.create('transform', {
+          duration: theme.transitions.duration.shortest,
+        }),
     },
     expandOpen: {
       transform: 'rotate(180deg)',

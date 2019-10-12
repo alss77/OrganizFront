@@ -8,7 +8,13 @@ import addTask from '../actions/index'
 
     generate = () => {
         this.props.addTask()
-    }   
+    }
+
+    getRandomId() {
+        const min = 1
+        const max = 1000
+        return (min + Math.floor(Math.random() * (max - min)))
+    }
 
     render() {
 
@@ -21,7 +27,7 @@ import addTask from '../actions/index'
             <div>
             {
                 this.props.taskList.map((r,index) => {
-                   return <Task key={r.code + index} rateExchange={r}/>
+                   return <Task key={this.getRandomId()} rateExchange={r}/>
                     })
                 }
             </div>
