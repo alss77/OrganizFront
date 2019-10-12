@@ -26,11 +26,13 @@ import addTask from '../actions/index'
             </Button>
             <div>
             {
+                
                 this.props.taskList.map((r,index) => {
-                   return <Task key={this.getRandomId()} rateExchange={r}/>
+                   return <Task key={r} id={r}/>
                     })
                 }
             </div>
+            {console.log('-----------')}
         </div>
         )
     }

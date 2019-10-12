@@ -7,7 +7,5 @@ export default function addTask(){
 }
 
 function getRandomId() {
-    const min = 1
-    const max = 1000
-    return (min + Math.floor(Math.random() * (max - min)))
+    return (Math.floor(Math.random() * 1000))
 }

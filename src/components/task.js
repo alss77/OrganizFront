@@ -19,13 +19,19 @@ import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
 import TaskButton from './task-button'
 import Grid from '@material-ui/core/Grid';
 
-export default function RecipeReviewCard() {
+export default function RecipeReviewCard(val) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
+  const color = ['yellow', 'orange', 'red']
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+
+  const randomUrgency = () => {
+    console.log(`id = ${val.id} / color = ${color[val.id % 3]}`)
+    return (color[val.id % 3])
+  }
 
   return (
     <Card className={classes.card}>
@@ -33,9 +39,11 @@ export default function RecipeReviewCard() {
             container
             direction="row"
             justify="flex-start"
-            alignItems="center"
+            alignItems="stretch"
             >
-        <Grid item xs={2} style={{backgroundColor: 'red'}}></Grid>
+        <Grid item xs={1}>
+          <div style={{backgroundColor: randomUrgency(), height: '100%', width: '100%'}}></div>
+        </Grid>
         <Grid item xs>
       <CardHeader
         avatar={
