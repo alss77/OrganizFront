@@ -2,12 +2,11 @@ import React from 'react';
 import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import MenuIcon from '@material-ui/icons/Menu';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 const options = [
-  'Accueil',
-  'Dashboard',
-  'Profil',
+  'Edit',
+  'Delete'
 ];
 
 const ITEM_HEIGHT = 48;
@@ -27,15 +26,15 @@ export default function LongMenu() {
   return (
     <div>
       <IconButton
-        aria-label="menu"
+        aria-label="more"
         aria-controls="long-menu"
         aria-haspopup="true"
         onClick={handleClick}
       >
-        <MenuIcon />
+        <MoreVertIcon />
       </IconButton>
       <Menu
-        id="long-menu"
+        id="task-menu"
         anchorEl={anchorEl}
         keepMounted
         open={open}
