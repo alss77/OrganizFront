@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import Button from '@material-ui/core/Button';
 import Task from '../components/task'
 import addTask from '../actions/index'
+import Helmet from 'react-helmet'
+import Header from '../components/header'
 
  class TaskList extends Component {
 
@@ -20,6 +22,10 @@ import addTask from '../actions/index'
 
     return (
         <div>
+            <Helmet>
+                <style>{'body { background-color: #F7F5FF; }'}</style>
+            </Helmet>
+            <Header/>
             <Button variant="contained" color="primary"
             onClick={e => this.generate()}>
                 Generer
