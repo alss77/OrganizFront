@@ -5,6 +5,7 @@ import Task from '../components/task'
 import addTask from '../actions/index'
 import Helmet from 'react-helmet'
 import Header from '../components/header'
+import {Link} from 'react-router-dom'
 
  class TaskList extends Component {
 
@@ -21,15 +22,14 @@ import Header from '../components/header'
     render() {
 
     return (
-        <div>
+        <div className='App'>
             <Helmet>
                 <style>{'body { background-color: #F7F5FF; }'}</style>
             </Helmet>
             <Header/>
-            <Button variant="contained" color="primary"
-            onClick={e => this.generate()}>
-                Generer
-            </Button>
+            <Link to={'/task-form'}>
+                <Button variant="contained" color="primary">Ajouter une tâche</Button>
+            </Link>
             <div>
             {
                 

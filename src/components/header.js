@@ -8,7 +8,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import MenuButton from './menu-button'
 import ProfilButton from './profil-button'
 
-export default function SearchAppBar() {
+function Header() {
   const classes = useStyles();
 
   return (
@@ -91,3 +91,5 @@ const useStyles = makeStyles(theme => ({
       },
     },
   }));
+
+  export default Header
