@@ -2,14 +2,18 @@ import React from 'react'
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import Header from '../components/header'
+import Helmet from 'react-helmet'
 
 function TaskForm(){
         return (
             <div>
+                <Helmet>
+                    <style>{'body { background-color: #F7F5FF; }'}</style>
+                </Helmet>
                 <div className='App'>
                     <Header/>
                 </div>
-                <h1>Nouveau post</h1>
+                <h1>Nouvelle tâche</h1>
                 <form>
                     <div className='form-group'>
                         <label>Titre</label>
@@ -27,7 +31,7 @@ function TaskForm(){
                         <div></div>
                     </div>
                     <Link to={'/task-list'} className='button_space'><button className='btn btn-danger'>Retour</button></Link>
-                    <button type='submit' className='btn btn-primary'>Creer</button>
+                    <button type='submit' className='btn btn-primary'>Créer</button>
                 </form>
             </div>
         )

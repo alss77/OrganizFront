@@ -3,11 +3,18 @@ import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuIcon from '@material-ui/icons/Menu';
+import {Link} from 'react-router-dom'
 
 const options = [
   'Accueil',
-  'Dashboard',
-  'Profil',
+  'Liste des tâches',
+  'Ajouter une tâche',
+];
+
+const screen = [
+  '/',
+  '/task-list',
+  '/task-form',
 ];
 
 const ITEM_HEIGHT = 48;
@@ -23,6 +30,10 @@ export default function LongMenu() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const changeScreen = (option) => {
+    return (screen[options.indexOf(option)])
+  }
 
   return (
     <div>
@@ -48,9 +59,11 @@ export default function LongMenu() {
         }}
       >
         {options.map(option => (
-          <MenuItem key={option} onClick={handleClose}>
-            {option}
-          </MenuItem>
+          <Link to={changeScreen(option)}>
+            <MenuItem key={option} onClick={handleClose}>
+              {option}
+            </MenuItem>
+          </Link>
         ))}
       </Menu>
     </div>
