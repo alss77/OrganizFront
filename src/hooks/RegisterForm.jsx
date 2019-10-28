@@ -1,5 +1,5 @@
 import React from 'react';
-import { login } from '../store/actions/authActions';
+import { register } from '../store/actions/authActions';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
@@ -30,9 +30,9 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function LoginForm(props) {
+function RegisterForm(props) {
   //const [labelWidth, setLabelWidth] = React.useState(0);
-  const [profile, setProfile] = React.useState({email: '', password: ''});
+  const [profile, setProfile] = React.useState({firstName: '', lastName: '', email: '', password: ''});
   //const labelRef = React.useRef(null);
   const classes = useStyles();
 
@@ -42,8 +42,9 @@ function LoginForm(props) {
   };
 
   const handleSubmit = event => {
-    console.log("Submit");
-    props.login(profile);
+    //event.preventDefault();
+    console.log("submit");
+   props.register(profile);
   }
 
   return (
@@ -54,6 +55,15 @@ function LoginForm(props) {
                 title="Bonjour vous pouvez vous inscrire ici!"
             />
       <FormControl className={classes.formControl}>
+        <InputLabel htmlFor="component-simple">First Name</InputLabel>
+        <Input name="firstName" id="firstName" value={profile.firstName} onChange={handleChange} />
+      </FormControl>
+      <br />
+      <FormControl className={classes.formControl}>
+        <InputLabel htmlFor="component-simple">Last Name</InputLabel>
+        <Input name="lastName" id="lastName" value={profile.lastName} onChange={handleChange} />
+      </FormControl>
+      <FormControl className={classes.formControl}>
         <InputLabel htmlFor="component-simple">Mail</InputLabel>
         <Input name="email" id="email" value={profile.email} onChange={handleChange} />
       </FormControl>
@@ -62,7 +72,7 @@ function LoginForm(props) {
         <Input name="password" id="password" value={profile.password} onChange={handleChange} />
       </FormControl>
       <Button variant="contained" onClick={handleSubmit} >
-        Login
+        Register
       </Button>
       </Card>
     </div>
@@ -72,11 +82,11 @@ function LoginForm(props) {
 RegisterForm.propTypes = {
     isAuthentificated: PropTypes.bool,
     error: PropTypes.object.isRequired,
-    login: PropTypes.func.isRequired
+    register: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
     isAuthentificated: state.auth.isAuthentificated
 })
 
-export default connect(mapStateToProps, { login })(LoginForm);
+export default connect(mapStateToProps, { register })(RegisterForm);
