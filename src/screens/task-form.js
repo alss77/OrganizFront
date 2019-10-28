@@ -23,7 +23,7 @@ function TaskForm(){
                     <Header/>
                 </div>
                 <h1>Nouvelle tâche</h1>
-                <form onSubmit={console.log(post)}>
+                <form>
                     <div className='form-group'>
                         <label>Titre</label>
                         <input className='form-control' type='text' value={title} onChange={(e) => setTitle(e.target.value)}/>
@@ -40,7 +40,7 @@ function TaskForm(){
                         <div></div>
                     </div>
                     <Link to={'/task-list'} className='button_space'><button className='btn btn-danger'>Retour</button></Link>
-                    <button type='submit' className='btn btn-primary'>Créer</button>
+                    <button className='btn btn-primary' onClick={console.log(post)}>Créer</button>
                 </form>
             </div>
         )
