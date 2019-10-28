@@ -11,7 +11,8 @@ function TaskForm(){
     const socket = io('http://localhost:4000');
     const { register, handleSubmit } = useForm();
     const sendForm = values => {
-        socket.emit('createTask', values);
+        console.log(values)
+        socket.emit('createTask', values)
     }
 
     function connectSocket(){
