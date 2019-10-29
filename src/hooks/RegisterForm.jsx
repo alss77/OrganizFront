@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
@@ -36,6 +36,13 @@ function RegisterForm(props) {
   });
   //  const labelRef = React.useRef(null);
   const classes = useStyles();
+
+  useEffect(() => {
+    if (props.isAuthentificated) {
+      console.log("authentifie le poto");
+      props.history.push('/dashboard');
+    }
+  });
 
   const handleChange = (event) => {
     const {
@@ -83,13 +90,13 @@ function RegisterForm(props) {
 }
 
 RegisterForm.propTypes = {
-  // isAuthentificated: PropTypes.bool,
+  isAuthentificated: PropTypes.bool,
   // error: PropTypes.object.isRequired,
   register: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (/* state */) => ({
-  // isAuthentificated: state.auth.isAuthentificated
+const mapStateToProps = (state) => ({
+  isAuthentificated: state.auth.isAuthentificated
 });
 
 export default connect(mapStateToProps, { register })(RegisterForm);
