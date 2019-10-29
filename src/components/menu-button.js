@@ -9,12 +9,14 @@ const options = [
   'Accueil',
   'Liste des tâches',
   'Ajouter une tâche',
+  'Liste des groupes',
 ];
 
 const screen = [
   '/',
   '/task-list',
   '/task-form',
+  '/group-list'
 ];
 
 const ITEM_HEIGHT = 48;

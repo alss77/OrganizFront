@@ -48,13 +48,13 @@ export default function RecipeReviewCard(val) {
       <CardHeader
         avatar={
           <Avatar aria-label="Task" className={classes.avatar}>
-            T
+            {val.author[0]}
           </Avatar>
         }
         action={
           <TaskButton/>
         }
-        title="Titre de la tache"
+        title={val.title}
         subheader="Deadline: 15/10/19 (3 jours)"
       />
       <CardActions disableSpacing>
@@ -87,7 +87,7 @@ export default function RecipeReviewCard(val) {
         <CardContent>
           <Typography paragraph>Description:</Typography>
           <Typography paragraph>
-            Contenu de la description
+            {val.content}
           </Typography>
         </CardContent>
       </Collapse>

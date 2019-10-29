@@ -1,16 +1,16 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Button from '@material-ui/core/Button';
-import Task from '../components/task'
-import { loadTask } from '../actions/index'
+import { loadGroup } from '../actions/index'
 import Helmet from 'react-helmet'
 import Header from '../components/header'
 import {Link} from 'react-router-dom'
+import Group from '../components/group'
 
- class TaskList extends Component {
+ class GroupList extends Component {
 
     UNSAFE_componentWillMount = () => {
-        this.props.loadTask()
+        this.props.loadGroup()
     }
 
     getRandomId() {
@@ -27,15 +27,15 @@ import {Link} from 'react-router-dom'
                 <style>{'body { background-color: #F7F5FF; }'}</style>
             </Helmet>
             <Header/>
-            <div className='Add-Button'>
-                <Link to={'/task-form'}>
-                    <Button variant="contained" color="primary">Ajouter une tâche</Button>
+            <div>
+                <Link to={'/group-form'}>
+                    <Button variant="contained" color="primary">Ajouter un groupe</Button>
                 </Link>
             </div>
             <div>
                 {
-                    this.props.currentList.map((r,index) => {
-                        return <Task key={r} id={r} title={r.cardName} content={r.content} author={r.author}/>
+                    this.props.groupList.map((r,index) => {
+                        return <Group key={r} id={r} title={r.groupName} content={r.content} author={r.author}/>
                     })
                 }
             </div>
@@ -47,12 +47,12 @@ import {Link} from 'react-router-dom'
 
 const mapStateToProps = store => {
     return {
-        currentList : store.taskListReducer.currentList
+        groupList : store.groupListReducer.groupList
     };
 };
 
 const mapDispatchToProps = {
-    loadTask
+    loadGroup
 }
 
-  export default connect(mapStateToProps, mapDispatchToProps)(TaskList)
+export default connect(mapStateToProps, mapDispatchToProps)(GroupList)

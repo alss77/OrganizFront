@@ -1,15 +1,14 @@
-import { SET_TASK } from '../actions'
+import { LOAD_TASK } from '../actions'
 
 const initialState = {
-    taskList : []
+    currentList : []
 }
 
 export default function(oldTaskList = initialState, action){
     switch(action.type){
-        case SET_TASK :
+        case LOAD_TASK :
             return {
-                ...oldTaskList,
-                taskList : [action.payload,...oldTaskList.taskList]
+                currentList : action.payload
             };
             default:
                 return oldTaskList

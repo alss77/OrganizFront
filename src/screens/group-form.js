@@ -13,11 +13,7 @@ const TaskForm = () => {
     const sendForm = values => {
         Object.assign(values, {token: generateToken()})
         console.log(values)
-        socket.emit('createTask', values)
-    }
-
-    function connectSocket(){
-        socket.emit('connexion')
+        socket.emit('createGroup', values)
     }
 
     function generateToken(){
@@ -26,18 +22,17 @@ const TaskForm = () => {
 
         return (
             <div>
-                {connectSocket()}
                 <Helmet>
                     <style>{'body { background-color: #F7F5FF; }'}</style>
                 </Helmet>
                 <div className='App'>
                     <Header/>
                 </div>
-                <h1>Nouvelle tâche</h1>
+                <h1>Ajout d'un groupe</h1>
                 <form onSubmit={handleSubmit(sendForm)}>
                     <div className='form-group'>
-                        <label>Titre</label>
-                        <input className='form-control' type='text' ref={register} name='cardName' required/>
+                        <label>Nom du groupe</label>
+                        <input className='form-control' type='text' ref={register} name='groupName' required/>
                         <div></div>
                     </div>
                     <div className='form-group'>
@@ -50,7 +45,7 @@ const TaskForm = () => {
                         <input className='form-control' type='text' ref={register} name='author' required/>
                         <div></div>
                     </div>
-                    <Link to={'/task-list'} className='button_space'><button className='btn btn-danger'>Retour</button></Link>
+                    <Link to={'/group-list'} className='button_space'><button className='btn btn-danger'>Retour</button></Link>
                     <button type='submit' className='btn btn-primary'>Créer</button>
                 </form>
             </div>

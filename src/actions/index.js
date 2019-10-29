@@ -1,11 +1,27 @@
-export const SET_TASK = "SET_TASK";
+import io from 'socket.io-client'
 
-export default function addTask(){
+export const LOAD_TASK = "LOAD_TASK";
+export const LOAD_GROUP = "LOAD_GROUP";
+
+const socket = io('http://localhost:4000');
+const id = 'alassane.fall@epitech.eu'
+
+export function loadTask(){
     return function(dispatch){
-        dispatch({type : SET_TASK, payload : getRandomId()})
+        socket.emit('taskList', id)
+        socket.on('loadTask', function(list){
+            console.log(list)
+            dispatch({type : LOAD_TASK, payload : list})
+        })
     }
 }
 
-function getRandomId() {
-    return (Math.floor(Math.random() * 1000))
+export function loadGroup(){
+    return function(dispatch){
+        socket.emit('groupList', id)
+        socket.on('loadGroup', function(list){
+            console.log(list)
+            dispatch({type : LOAD_GROUP, payload : list})
+        })
+    }
 }
