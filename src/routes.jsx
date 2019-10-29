@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React from 'react';
 import { Router, Route, Switch, Redirect } from 'react-router';
 import history from './utils/history';
 import PropTypes from 'prop-types';
@@ -29,6 +29,7 @@ const Routes = (props) => {
           <div>
             <Switch>
               <Route exact path='/' component={LoginForm} />
+              <Route exact path='/login' component={LoginForm} />
               <Route path='/register' component={RegisterForm} />
               <PrivateRoute path="/dashboard"
                             auth={props.isAuthentificated}

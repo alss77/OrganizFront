@@ -11,29 +11,19 @@ import {
   REGISTER_FAIL,
 } from './types';
 
-// Setup config/headers and token
-export const tokenConfig = (getState) => {
-  // Get token from local storage
-  const { token } = getState().auth;
-
+// Check token && load user
+export const loaduser = (token) => (dispatch, getState) => {
   // Headers
   const config = {
     headers: {
-      'Content-type': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'bearer ' + token
     },
   };
-  // If token, add to headers
-  if (token) {
-    config.headers['x-auth-token'] = token;
-  }
-  return config;
-};
 
-// Check token && load user
-export const loaduser = () => (dispatch, getState) => {
   // User loading
   dispatch({ type: USER_LOADING });
-  axios.get('', tokenConfig(getState))
+  axios.get('http://localhost/me', config)
     .then((res) => dispatch({
       type: USER_LOADED,
       payload: res.data,
@@ -78,7 +68,6 @@ export const login = ({ email, password }) => (dispatch) => {
   // Headers
   const config = {
     headers: {
-      'Access-Control-Allow-Origin': '*',
       'Content-Type': 'application/json',
     },
   };
@@ -86,10 +75,13 @@ export const login = ({ email, password }) => (dispatch) => {
   // Request Body
   const body = JSON.stringify({ email, password });
   axios.post('http://localhost:4000/auth/local', body, config)
-    .then((res) => dispatch({
+    .then((res) => {
+      console.log(res.data);
+      dispatch({
       type: LOGIN_SUCCESS,
-      payload: res.data,
-    }))
+      payload: res.data.token,
+      });
+    })
     .catch((/* err */) => {
       // dispatch(returnErrors(err.response.data, err.response.status, 'REGISTER_FAIL'))
       dispatch({

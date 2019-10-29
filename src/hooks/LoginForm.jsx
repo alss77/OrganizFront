@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Button from '@material-ui/core/Button';
 import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
@@ -35,6 +35,13 @@ function LoginForm(props) {
   // const labelRef = React.useRef(null);
   const classes = useStyles();
 
+  useEffect(() => {
+    if (props.isAuthentificated) {
+      console.log("authentifie le poto");
+      props.history.push('/dashboard');
+    }
+  });
+
   const handleChange = (event) => {
     const { name, value } = event.target;
     setProfile({ ...profile, [name]: value });
@@ -42,6 +49,7 @@ function LoginForm(props) {
 
   const handleSubmit = () => {
     props.login(profile);
+    console.log("authentificated : " + props.isAuthentificated);
   };
 
   return (
@@ -49,7 +57,7 @@ function LoginForm(props) {
       <h1 className={classes.h1}>WELCOME TO ORGANIZ !</h1>
       <Card className={classes.card}>
         <CardHeader
-          title="Bonjour vous pouvez vous inscrire ici!"
+          title="Connectez-vous ici!"
         />
         <FormControl className={classes.formControl}>
           <InputLabel htmlFor="component-simple">Mail</InputLabel>
@@ -68,13 +76,13 @@ function LoginForm(props) {
 }
 
 LoginForm.propTypes = {
-  // isAuthentificated: PropTypes.bool,
+  isAuthentificated: PropTypes.bool,
   // error: PropTypes.object.isRequired,
   login: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (/* state */) => ({
-  // isAuthentificated: state.auth.isAuthentificated,
+const mapStateToProps = (state) => ({
+  isAuthentificated: state.auth.isAuthentificated,
 });
 
 export default connect(mapStateToProps, { login })(LoginForm);

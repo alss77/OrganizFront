@@ -1,13 +1,13 @@
-import React from 'react';
+import React/* , { useEffect } */from 'react';
 import './App.css';
 import { Provider } from 'react-redux';
 import store from './store';
 import Routes from './routes';
-//  import { loadUser } from './store/actions/authActions';
+// import { loaduser } from './store/actions/authActions';
 
 function App() {
   /* useEffect(() => {
-    store.dispatch(loadUser());
+    store.dispatch(loaduser());
   }); */
 
   return (
