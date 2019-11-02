@@ -8,6 +8,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import Button from '@material-ui/core/Button';
+import { push } from 'connected-react-router';
 import { register } from '../store/actions/authActions';
 
 const useStyles = makeStyles((theme) => ({
@@ -39,8 +40,7 @@ function RegisterForm(props) {
 
   useEffect(() => {
     if (props.isAuthentificated) {
-      console.log("authentifie le poto");
-      props.history.push('/dashboard');
+      props.push('/dashboard');
     }
   });
 
@@ -82,7 +82,7 @@ function RegisterForm(props) {
           <Input name="password" id="password" value={profile.password} onChange={handleChange} />
         </FormControl>
         <Button variant="contained" onClick={handleSubmit}>
-        Register
+          Register
         </Button>
       </Card>
     </div>
@@ -93,10 +93,15 @@ RegisterForm.propTypes = {
   isAuthentificated: PropTypes.bool,
   // error: PropTypes.object.isRequired,
   register: PropTypes.func.isRequired,
+  push: PropTypes.func.isRequired,
+};
+
+RegisterForm.defaultProps = {
+  isAuthentificated: false,
 };
 
 const mapStateToProps = (state) => ({
-  isAuthentificated: state.auth.isAuthentificated
+  isAuthentificated: state.auth.isAuthentificated,
 });
 
-export default connect(mapStateToProps, { register })(RegisterForm);
+export default connect(mapStateToProps, { register, push })(RegisterForm);

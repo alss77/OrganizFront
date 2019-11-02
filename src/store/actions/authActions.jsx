@@ -12,12 +12,12 @@ import {
 } from './types';
 
 // Check token && load user
-export const loaduser = (token) => (dispatch, getState) => {
+export const loaduser = (token) => (dispatch) => {
   // Headers
   const config = {
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': 'bearer ' + token
+      Authorization: 'bearer' + token,
     },
   };
 
@@ -52,10 +52,13 @@ export const register = ({
     firstName, lastName, email, password,
   });
   axios.post('http://localhost:4000/auth/register', body, config)
-    .then((res) => dispatch({
-      type: REGISTER_SUCCESS,
-      payload: res.data,
-    }))
+    .then((res) => {
+      loaduser(res.data.token);
+      dispatch({
+        type: REGISTER_SUCCESS,
+        payload: res.data,
+      })
+    })
     .catch((/* err */) => {
       // dispatch(returnErrors(err.response.data, err.response.status, 'REGISTER_FAIL'))
       dispatch({
@@ -76,10 +79,9 @@ export const login = ({ email, password }) => (dispatch) => {
   const body = JSON.stringify({ email, password });
   axios.post('http://localhost:4000/auth/local', body, config)
     .then((res) => {
-      console.log(res.data);
       dispatch({
-      type: LOGIN_SUCCESS,
-      payload: res.data.token,
+        type: LOGIN_SUCCESS,
+        payload: res.data.token,
       });
     })
     .catch((/* err */) => {

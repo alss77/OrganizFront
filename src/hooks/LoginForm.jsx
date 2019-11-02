@@ -8,7 +8,13 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import PropTypes from 'prop-types';
+import { push } from 'connected-react-router';
 import { login } from '../store/actions/authActions';
+
+
+const mapStateToProps = (state) => ({
+  isAuthentificated: state.auth.isAuthentificated,
+});
 
 const useStyles = makeStyles((theme) => ({
   h1: {
@@ -37,8 +43,7 @@ function LoginForm(props) {
 
   useEffect(() => {
     if (props.isAuthentificated) {
-      console.log("authentifie le poto");
-      props.history.push('/dashboard');
+      props.push('/dashboard');
     }
   });
 
@@ -49,26 +54,33 @@ function LoginForm(props) {
 
   const handleSubmit = () => {
     props.login(profile);
-    console.log("authentificated : " + props.isAuthentificated);
   };
 
   return (
     <div className={classes.container}>
       <h1 className={classes.h1}>WELCOME TO ORGANIZ !</h1>
       <Card className={classes.card}>
-        <CardHeader
-          title="Connectez-vous ici!"
-        />
+        <CardHeader title="Connectez-vous ici!" />
         <FormControl className={classes.formControl}>
           <InputLabel htmlFor="component-simple">Mail</InputLabel>
-          <Input name="email" id="email" value={profile.email} onChange={handleChange} />
+          <Input
+            name="email"
+            id="email"
+            value={profile.email}
+            onChange={handleChange}
+          />
         </FormControl>
         <FormControl className={classes.formControl}>
           <InputLabel htmlFor="component-simple">Password</InputLabel>
-          <Input name="password" id="password" value={profile.password} onChange={handleChange} />
+          <Input
+            name="password"
+            id="password"
+            value={profile.password}
+            onChange={handleChange}
+          />
         </FormControl>
         <Button variant="contained" onClick={handleSubmit}>
-        Login
+          Login
         </Button>
       </Card>
     </div>
@@ -79,10 +91,14 @@ LoginForm.propTypes = {
   isAuthentificated: PropTypes.bool,
   // error: PropTypes.object.isRequired,
   login: PropTypes.func.isRequired,
+  push: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  isAuthentificated: state.auth.isAuthentificated,
-});
+LoginForm.defaultProps = {
+  isAuthentificated: null,
+};
 
-export default connect(mapStateToProps, { login })(LoginForm);
+export default connect(
+  mapStateToProps,
+  { login, push },
+)(LoginForm);
