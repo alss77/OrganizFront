@@ -65,7 +65,7 @@ function DashBoard() {
           <ul className={classes.ul}>
             <ListSubheader className={classes.header}>Liste de vos Tâches</ListSubheader>
             {[0, 1, 2, 4, 5, 6, 7].map((item) => (
-              <ListItem alignItem="flex-start" key={`item-${item}`}>
+              <ListItem alignItems="flex-start" key={`item-${item}`}>
                 <ListItemAvatar>
                   <Avatar>{`${item}`}</Avatar>
                 </ListItemAvatar>

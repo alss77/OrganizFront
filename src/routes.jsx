@@ -5,15 +5,14 @@ import {
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
-import PrivateRoute from 'react-private-route';
+import PrivateRoute from './components/PrivateRoute';
 import RegisterForm from './hooks/RegisterForm';
 import LoginForm from './hooks/LoginForm';
 import Dashboard from './hooks/DashBoard';
 import NavBar from './components/NavBar';
 import { history } from './store';
 
-const Routes = (props) => {
-  const isLogged = () => props.isAuthentificated;
+const Routes = ({ isAuthentificated }) => {
   return (
     <div>
       <ConnectedRouter history={history}>
@@ -22,14 +21,14 @@ const Routes = (props) => {
         <br />
         <div>
           <Switch>
-            <Route exact path="/" component={LoginForm} />
             <Route exact path="/login" component={LoginForm} />
             <Route path="/register" component={RegisterForm} />
             <PrivateRoute
               path="/dashboard"
-              isAuthenticated={isLogged}
-              component={Dashboard}
+              auth={isAuthentificated}
+              func={Dashboard}
             />
+            <Route exact path="/" component={LoginForm} />
           </Switch>
         </div>
       </ConnectedRouter>
