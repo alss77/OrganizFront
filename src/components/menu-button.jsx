@@ -2,11 +2,21 @@ import React from 'react';
 import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
+import MenuIcon from '@material-ui/icons/Menu';
+import { Link } from 'react-router-dom';
 
 const options = [
-  'Edit',
-  'Delete'
+  'Accueil',
+  'Liste des tâches',
+  'Ajouter une tâche',
+  'Liste des groupes',
+];
+
+const screen = [
+  '/',
+  '/task-list',
+  '/task-form',
+  '/group-list',
 ];
 
 const ITEM_HEIGHT = 48;
@@ -15,7 +25,7 @@ export default function LongMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
-  const handleClick = event => {
+  const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
@@ -23,18 +33,20 @@ export default function LongMenu() {
     setAnchorEl(null);
   };
 
+  const changeScreen = (option) => (screen[options.indexOf(option)]);
+
   return (
     <div>
       <IconButton
-        aria-label="more"
+        aria-label="menu"
         aria-controls="long-menu"
         aria-haspopup="true"
         onClick={handleClick}
       >
-        <MoreVertIcon />
+        <MenuIcon />
       </IconButton>
       <Menu
-        id="task-menu"
+        id="long-menu"
         anchorEl={anchorEl}
         keepMounted
         open={open}
@@ -46,10 +58,12 @@ export default function LongMenu() {
           },
         }}
       >
-        {options.map(option => (
-          <MenuItem key={option} onClick={handleClose}>
-            {option}
-          </MenuItem>
+        {options.map((option) => (
+          <Link to={changeScreen(option)}>
+            <MenuItem key={option} onClick={handleClose}>
+              {option}
+            </MenuItem>
+          </Link>
         ))}
       </Menu>
     </div>

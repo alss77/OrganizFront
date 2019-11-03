@@ -19,7 +19,8 @@
     "redux": "^4.0.4",
     "redux-form": "^4.1.3",
     "redux-thunk": "^2.3.0",
-    "socket.io": "^2.3.0"
+    "socket.io": "^2.3.0",
+    "socket.io-client": "^2.3.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -28,7 +29,7 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": "airbnb/hooks"
   },
   "browserslist": {
     "production": [
@@ -43,6 +44,27 @@
     ]
   },
   "devDependencies": {
-    "@types/react-transition-group": "^4.2.3"
-  }
+    "@types/react-transition-group": "^4.2.3",
+    "babel-eslint": "^10.0.3",
+    "eslint": "^6.6.0",
+    "eslint-config-airbnb": "18.0.1",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsx-a11y": "6.2.3",
+    "eslint-plugin-react": "^7.16.0",
+    "eslint-plugin-react-hooks": "1.7.0"
+  },
+  "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
+  "main": "webpack.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alss77/OrganizFront.git"
+  },
+  "keywords": [],
+  "author": "alassane",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alss77/OrganizFront/issues"
+  },
+  "homepage": "https://github.com/alss77/OrganizFront#readme"
 }
