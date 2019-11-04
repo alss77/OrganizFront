@@ -12,29 +12,26 @@ import Dashboard from './hooks/DashBoard';
 import NavBar from './components/NavBar';
 import { history } from './store';
 
-const Routes = ({ isAuthentificated }) => {
-  return (
-    <div>
-      <ConnectedRouter history={history}>
-        <NavBar />
-        <br />
-        <br />
-        <div>
-          <Switch>
-            <Route exact path="/login" component={LoginForm} />
-            <Route path="/register" component={RegisterForm} />
-            <PrivateRoute
-              path="/dashboard"
-              auth={isAuthentificated}
-              func={Dashboard}
-            />
-            <Route exact path="/" component={LoginForm} />
-          </Switch>
-        </div>
-      </ConnectedRouter>
-    </div>
-  );
-};
+const Routes = ({ isAuthentificated }) => (
+  <div>
+    <ConnectedRouter history={history}>
+      <NavBar />
+      <br />
+      <div>
+        <Switch>
+          <Route exact path="/login" component={LoginForm} />
+          <Route path="/register" component={RegisterForm} />
+          <PrivateRoute
+            path="/dashboard"
+            auth={isAuthentificated}
+            func={Dashboard}
+          />
+          <Route exact path="/" component={LoginForm} />
+        </Switch>
+      </div>
+    </ConnectedRouter>
+  </div>
+);
 
 Routes.propTypes = {
   isAuthentificated: PropTypes.bool,

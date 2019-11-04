@@ -9,11 +9,20 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import Avatar from '@material-ui/core/Avatar';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import NavBar from '../components/NavBar';
 
 const useStyles = makeStyles(() => ({
   root: {
-    marginTop: 2,
+    marginTop: 5,
     marginBottom: 2,
+    width: '100%',
+    alignItems: 'center',
+  },
+  card: {
+    width: '80%',
+    height: '100%',
+    minHeight: 800,
+    alignItems: 'center',
   },
   header: {
     backgroundColor: 'purple',
@@ -42,26 +51,28 @@ const useStyles = makeStyles(() => ({
 function DashBoard() {
   const classes = useStyles();
   return (
-    <Card className={classes.root}>
-      <CardHeader
-        title="Bonjour NOM + PRENOM"
-        subheader="Vous trouverez ici vos tâches et groupes auquel vous appartenez"
-      />
-      <CardContent>
-        <List className={classes.list} subheader={<li />}>
-          <ul className={classes.ul}>
-            <ListSubheader className={classes.header}>Liste de vos Groupes</ListSubheader>
-            {[0, 1, 2, 4, 5, 6, 7].map((item) => (
-              <ListItem alignItems="center" key={`item-${item}`}>
-                <ListItemAvatar>
-                  <Avatar>{`${item}`}</Avatar>
-                </ListItemAvatar>
-                <ListItemText primary={`Item ${item}`} />
-              </ListItem>
-            ))}
-          </ul>
-        </List>
-        <List className={classes.list} subheader={<li />}>
+    <div className={classes.root}>
+      <NavBar />
+      <Card className={classes.card}>
+        <CardHeader
+          title="Bonjour NOM + PRENOM"
+          subheader="Vous trouverez ici vos tâches et groupes auquel vous appartenez"
+        />
+        <CardContent>
+          <List className={classes.list} subheader={<li />}>
+            <ul className={classes.ul}>
+              <ListSubheader className={classes.header}>Liste de vos Groupes</ListSubheader>
+              {[0, 1, 2, 4, 5, 6, 7].map((item) => (
+                <ListItem alignItems="center" key={`item-${item}`}>
+                  <ListItemAvatar>
+                    <Avatar>{`${item}`}</Avatar>
+                  </ListItemAvatar>
+                  <ListItemText primary={`Item ${item}`} />
+                </ListItem>
+              ))}
+            </ul>
+          </List>
+          { /* <List className={classes.list} subheader={<li />}>
           <ul className={classes.ul}>
             <ListSubheader className={classes.header}>Liste de vos Tâches</ListSubheader>
             {[0, 1, 2, 4, 5, 6, 7].map((item) => (
@@ -73,9 +84,10 @@ function DashBoard() {
               </ListItem>
             ))}
           </ul>
-        </List>
-      </CardContent>
-    </Card>
+            </List> */ }
+        </CardContent>
+      </Card>
+    </div>
   );
 }
 

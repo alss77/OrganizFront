@@ -8,3 +8,6 @@ export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
 export const REGISTER_FAIL = 'REGISTER_FAIL';
 export const GET_ERRORS = 'GET_ERRORS';
 export const CLEAR_ERRORS = 'CLEAR_ERRORS';
+export const LOAD_GROUP = 'LOAD_GROUP';
+export const CREATE_GROUP = 'CREATE_GROUP';
+export const CREATE_GROUP_FAIL = 'CREATE_GROUP_FAIL';
