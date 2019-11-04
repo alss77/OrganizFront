@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 import Helmet from 'react-helmet';
 import { Link } from 'react-router-dom';
@@ -7,19 +8,18 @@ import { loadGroup } from '../actions/index';
 import Header from '../components/header';
 import Group from '../components/group';
 
-class GroupList extends Component {
-  UNSAFE_componentWillMount() {
-    this.props.loadGroup();
-  }
+function GroupList({ groupList }) {
+  useEffect(() => {
+    loadGroup();
+  });
 
-  getRandomId() {
+  { /* const getRandomId = () => {
     const min = 1;
     const max = 1000;
     return (min + Math.floor(Math.random() * (max - min)));
-  }
+  }; */ }
 
-  render() {
-    return (
+  return (
       <div className="App">
         <Helmet>
           <style>{'body { background-color: #F7F5FF; }'}</style>
@@ -32,7 +32,7 @@ class GroupList extends Component {
         </div>
         <div>
           {
-            this.props.groupList.map((r) => (
+            groupList.map((r) => (
               <Group
                 key={r}
                 id={r}
@@ -45,16 +45,20 @@ class GroupList extends Component {
         </div>
         {console.log('-----------')}
       </div>
-    );
-  }
+  );
 }
+
+GroupList.propTypes = {
+  loadGroup: PropTypes.func.isRequired,
+  groupList: PropTypes.node,
+};
+
+GroupList.defaultProps = {
+  groupList: [],
+};
 
 const mapStateToProps = (store) => ({
   groupList: store.groupListReducer.groupList,
 });
 
-const mapDispatchToProps = {
-  loadGroup,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(GroupList);
+export default connect(mapStateToProps, { loadGroup })(GroupList);
