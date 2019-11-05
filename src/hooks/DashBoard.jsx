@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -9,7 +9,9 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import Avatar from '@material-ui/core/Avatar';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import NavBar from '../components/NavBar';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { loaduser } from '../store/actions/authActions';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -48,11 +50,20 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-function DashBoard() {
+const mapStateToProps = (state) => ({
+  token: state.auth.token,
+});
+
+function DashBoard(props) {
   const classes = useStyles();
+
+  useEffect(() => {
+    console.log('token : ' + props.token);
+    props.loaduser(props.token);
+  });
+
   return (
     <div className={classes.root}>
-      <NavBar />
       <Card className={classes.card}>
         <CardHeader
           title="Bonjour NOM + PRENOM"
@@ -91,4 +102,13 @@ function DashBoard() {
   );
 }
 
-export default DashBoard;
+DashBoard.propTypes = {
+  loaduser: PropTypes.func.isRequired,
+  token: PropTypes.string,
+};
+
+DashBoard.defaultProps = {
+  token: '',
+};
+
+export default connect(mapStateToProps, { loaduser })(DashBoard);

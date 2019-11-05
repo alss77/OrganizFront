@@ -24,7 +24,7 @@ const Routes = ({ isAuthentificated }) => (
           <PrivateRoute
             path="/dashboard"
             auth={isAuthentificated}
-            func={Dashboard}
+            funct={Dashboard}
           />
           <Route exact path="/" component={LoginForm} />
         </Switch>

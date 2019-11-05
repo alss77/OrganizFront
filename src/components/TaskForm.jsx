@@ -28,18 +28,18 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function GroupForm() {
+function TaskForm() {
     const [modal, changeModalState] = useState(false);
     const classes = useStyles();
     const [modalStyle] = React.useState(getModalStyle);
-    const [group, changeGroup] = useState({ groupName: '', groupDesc: '', groupeAuthor: '' });
+    const [task, setTask] = useState({ taskName: '', taskDesc: '', taskAuthor: '' });
 
     const handleChange = (event) => {
         const {
             name, value,
         } = event.target;
-        changeGroup({
-            ...group, [name]: value,
+        setTask({
+            ...task, [name]: value,
         });
     };
 
@@ -54,22 +54,22 @@ function GroupForm() {
     return (
         <div>
             <Button onClick={toggle}>
-                Creer un groupe
+                Ajouter une task
             </Button>
             <Modal open={modal} onClose={() => changeModalState(false)}>
                 <div style={modalStyle} className={classes.paper}>
-                    <h2 id="simple-modal-title">Création de groupe </h2>
+                    <h2 id="simple-modal-title">Ajout de task </h2>
                     <FormControl>
-                        <InputLabel htmlFor="component-simple">Nom du groupe</InputLabel>
-                        <Input className="form-control" onChange={handleChange} type="text" name="groupName" required />
+                        <InputLabel htmlFor="component-simple">Nom</InputLabel>
+                        <Input className="form-control" name="taskName" id="taskName" onChange={handleChange} type="text" name="groupName" required />
                     </FormControl>
                     <FormControl>
                         <InputLabel htmlFor="component-simple">Description</InputLabel>
-                        <Input className="form-control" onChange={handleChange} type="text" name="content" />
+                        <Input className="form-control" name="taskDesc" id="taskDesc" onChange={handleChange} type="text" name="content" />
                     </FormControl>
                     <FormControl>
                         <InputLabel htmlFor="component-simple">Auteur</InputLabel>
-                        <Input className="form-control" onChange={handleChange} type="text" name="author" required />
+                        <Input className="form-control" name="taskAuthor" id="taskAuthor" onChange={handleChange} type="text" name="author" required />
                     </FormControl>
                     <Button variant="contained" onClick={handleSubmit}>
                         Create
@@ -77,7 +77,8 @@ function GroupForm() {
                 </div>
             </Modal>
         </div>
-    );
+    )
 }
 
-export default GroupForm;
+export default TaskForm;
+

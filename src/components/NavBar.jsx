@@ -5,6 +5,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { Link } from '@material-ui/core';
 import GroupForm from './GroupForm';
+import TaskForm from './TaskForm';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,6 +39,7 @@ function NavBar() {
             Register
           </Link>
           <GroupForm />
+          <TaskForm />
         </Toolbar>
       </AppBar>
     </div>

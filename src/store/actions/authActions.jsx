@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { returnErrors } from './errorActions';
+// import { returnErrors } from './errorActions';
 import {
   USER_LOADED,
   USER_LOADING,
@@ -13,23 +13,24 @@ import {
 
 // Check token && load user
 export const loaduser = (token) => (dispatch) => {
+  console.log('load the user');
+  const a_token = 'bearer ' + token;
   // Headers
   const config = {
     headers: {
-      'Content-Type': 'application/json',
-      Authorization: 'bearer' + token,
+      'authorization': a_token,
     },
   };
 
   // User loading
   dispatch({ type: USER_LOADING });
-  axios.get('http://localhost/me', config)
+  axios.get('http://localhost:4000/user/me', config)
     .then((res) => dispatch({
       type: USER_LOADED,
       payload: res.data,
     }))
-    .catch((err) => {
-      dispatch(returnErrors(err.response.data, err.response.status));
+    .catch((/* err */) => {
+      // dispatch(returnErrors(err.response.data, err.response.status));
       dispatch({
         type: AUTH_ERROR,
       });
@@ -53,11 +54,10 @@ export const register = ({
   });
   axios.post('http://localhost:4000/auth/register', body, config)
     .then((res) => {
-      loaduser(res.data.token);
       dispatch({
         type: REGISTER_SUCCESS,
         payload: res.data,
-      })
+      });
     })
     .catch((/* err */) => {
       // dispatch(returnErrors(err.response.data, err.response.status, 'REGISTER_FAIL'))
@@ -79,6 +79,7 @@ export const login = ({ email, password }) => (dispatch) => {
   const body = JSON.stringify({ email, password });
   axios.post('http://localhost:4000/auth/local', body, config)
     .then((res) => {
+      console.log(res.data.token);
       dispatch({
         type: LOGIN_SUCCESS,
         payload: res.data.token,

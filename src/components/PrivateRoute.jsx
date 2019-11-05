@@ -4,24 +4,15 @@ import {
 } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-const PrivateRoute = ({ func: Component, auth }) => (
+const PrivateRoute = ({ funct: Component, auth }) => (
     <Route
-        render={() => (auth ? (
-            <Component />
+        render={(props) => (auth ? (
+            <Component {...props} />
         ) : (
                 <Redirect to={{ pathname: '/login' }} />
             )
         )}
     />
 );
-
-PrivateRoute.propTypes = {
-    func: PropTypes.func.isRequired,
-    auth: PropTypes.bool,
-};
-
-PrivateRoute.defaultProps = {
-    auth: null,
-};
 
 export default PrivateRoute;
