@@ -2,33 +2,33 @@ import axios from 'axios';
 // import { returnErrors } from './errorActions';
 import {
   USER_LOADED,
-  USER_LOADING,
   AUTH_ERROR,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT_SUCCESS,
   REGISTER_SUCCESS,
   REGISTER_FAIL,
+  RECEIVE_GROUP,
 } from './types';
 
 // Check token && load user
 export const loaduser = (token) => (dispatch) => {
   console.log('load the user');
-  const a_token = 'bearer ' + token;
   // Headers
   const config = {
     headers: {
-      'authorization': a_token,
+      authorization: `bearer ${token}`,
     },
   };
 
-  // User loading
-  dispatch({ type: USER_LOADING });
   axios.get('http://localhost:4000/user/me', config)
-    .then((res) => dispatch({
-      type: USER_LOADED,
-      payload: res.data,
-    }))
+    .then((res) => {
+      console.log(res.data);
+      dispatch({
+        type: USER_LOADED,
+        payload: res.data,
+      });
+    })
     .catch((/* err */) => {
       // dispatch(returnErrors(err.response.data, err.response.status));
       dispatch({
@@ -79,10 +79,9 @@ export const login = ({ email, password }) => (dispatch) => {
   const body = JSON.stringify({ email, password });
   axios.post('http://localhost:4000/auth/local', body, config)
     .then((res) => {
-      console.log(res.data.token);
       dispatch({
         type: LOGIN_SUCCESS,
-        payload: res.data.token,
+        payload: res.data,
       });
     })
     .catch((/* err */) => {
@@ -96,3 +95,12 @@ export const login = ({ email, password }) => (dispatch) => {
 export const logout = () => ({
   type: LOGOUT_SUCCESS,
 });
+
+export const grouplisten = (socket) => (dispatch) => {
+  socket.on('groups', (group) => {
+    dispatch({
+      type: RECEIVE_GROUP,
+      payload: group,
+    });
+  });
+}

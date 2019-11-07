@@ -9,17 +9,17 @@ export const history = createBrowserHistory();
 const middleware = [thunk];
 
 export default function configureStore(preloadedState) {
-    const store = createStore(
-        createRootReducer(history), // root reducer with router state
-        preloadedState,
-        compose(
-            applyMiddleware(
-                routerMiddleware(history),
-                ...middleware,
-            ),
-            window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
-        ),
-    );
+  const store = createStore(
+    createRootReducer(history), // root reducer with router state
+    preloadedState,
+    compose(
+      applyMiddleware(
+        routerMiddleware(history),
+        ...middleware,
+      ),
+      window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
+    ),
+  );
 
-    return store;
+  return store;
 }

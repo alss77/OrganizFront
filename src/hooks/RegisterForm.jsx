@@ -10,6 +10,7 @@ import CardHeader from '@material-ui/core/CardHeader';
 import Button from '@material-ui/core/Button';
 import { push } from 'connected-react-router';
 import { register } from '../store/actions/authActions';
+import { initSocket } from '../store/actions/socketActions';
 
 const useStyles = makeStyles((theme) => ({
   h1: {
@@ -55,6 +56,7 @@ function RegisterForm(props) {
 
   const handleSubmit = () => {
     props.register(profile);
+    props.initSocket();
   };
 
   return (
@@ -91,6 +93,7 @@ function RegisterForm(props) {
 
 RegisterForm.propTypes = {
   isAuthentificated: PropTypes.bool,
+  initSocket: PropTypes.func.isRequired,
   // error: PropTypes.object.isRequired,
   register: PropTypes.func.isRequired,
   push: PropTypes.func.isRequired,
@@ -104,4 +107,4 @@ const mapStateToProps = (state) => ({
   isAuthentificated: state.auth.isAuthentificated,
 });
 
-export default connect(mapStateToProps, { register, push })(RegisterForm);
+export default connect(mapStateToProps, { register, push, initSocket })(RegisterForm);

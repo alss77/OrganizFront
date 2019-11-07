@@ -5,6 +5,9 @@ import { Button } from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types/prop-types';
+import { createGroup } from '../../store/actions/socketActions';
 
 function getModalStyle() {
   const top = 50;
@@ -28,11 +31,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function GroupForm() {
+const mapStateToProps = (state) => ({
+  socket: state.socket.socket,
+  user: state.auth.user,
+});
+
+function GroupForm(props) {
   const [modal, changeModalState] = useState(false);
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
-  const [group, changeGroup] = useState({ groupName: '', groupDesc: '', groupeAuthor: '' });
+  const { socket, user } = props;
+  const [group, changeGroup] = useState({ name: '', users: [user.id], task: [] });
 
   const handleChange = (event) => {
     const {
@@ -48,6 +57,7 @@ function GroupForm() {
   };
 
   const handleSubmit = () => {
+    props.createGroup(group, socket);
     toggle();
   };
 
@@ -61,15 +71,7 @@ function GroupForm() {
           <h2 id="simple-modal-title">Création de groupe </h2>
           <FormControl>
             <InputLabel htmlFor="component-simple">Nom du groupe</InputLabel>
-            <Input className="form-control" onChange={handleChange} type="text" name="groupName" required />
-          </FormControl>
-          <FormControl>
-            <InputLabel htmlFor="component-simple">Description</InputLabel>
-            <Input className="form-control" onChange={handleChange} type="text" name="content" />
-          </FormControl>
-          <FormControl>
-            <InputLabel htmlFor="component-simple">Auteur</InputLabel>
-            <Input className="form-control" onChange={handleChange} type="text" name="author" required />
+            <Input className="form-control" id="name" onChange={handleChange} type="text" name="name" required />
           </FormControl>
           <Button variant="contained" onClick={handleSubmit}>
             Create
@@ -80,4 +82,15 @@ function GroupForm() {
   );
 }
 
-export default GroupForm;
+GroupForm.propTypes = {
+  createGroup: PropTypes.func.isRequired,
+  socket: PropTypes.oneOfType([PropTypes.object]),
+  user: PropTypes.oneOfType([PropTypes.object]),
+};
+
+GroupForm.defaultProps = {
+  socket: null,
+  user: null,
+};
+
+export default connect(mapStateToProps, { createGroup })(GroupForm);

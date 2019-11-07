@@ -7,6 +7,7 @@ import {
   LOGOUT_SUCCESS,
   REGISTER_SUCCESS,
   REGISTER_FAIL,
+  RECEIVE_GROUP,
 } from '../actions/types';
 
 const initialState = {
@@ -14,6 +15,8 @@ const initialState = {
   isAuthentificated: null,
   isLoading: false,
   user: null,
+  listenGroup: false,
+  listenTask: false,
 };
 
 export default function (state = initialState, action) {
@@ -34,7 +37,8 @@ export default function (state = initialState, action) {
     case REGISTER_SUCCESS:
       return {
         ...state,
-        token: action.payload,
+        user: action.payload.user,
+        token: action.payload.token,
         isAuthentificated: true,
         isLoading: false,
       };
@@ -48,6 +52,17 @@ export default function (state = initialState, action) {
         user: null,
         isAuthentificated: false,
         isLoading: false,
+      };
+    case RECEIVE_GROUP:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          teams: [
+            ...state.user.teams,
+            action.paylod,
+          ],
+        },
       };
     default:
       return state;

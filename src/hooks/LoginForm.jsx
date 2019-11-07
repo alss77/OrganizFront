@@ -10,6 +10,7 @@ import CardHeader from '@material-ui/core/CardHeader';
 import PropTypes from 'prop-types';
 import { push } from 'connected-react-router';
 import { login } from '../store/actions/authActions';
+import { initSocket } from '../store/actions/socketActions';
 
 
 const mapStateToProps = (state) => ({
@@ -54,6 +55,7 @@ function LoginForm(props) {
 
   const handleSubmit = () => {
     props.login(profile);
+    props.initSocket();
   };
 
   return (
@@ -89,6 +91,7 @@ function LoginForm(props) {
 
 LoginForm.propTypes = {
   isAuthentificated: PropTypes.bool,
+  initSocket: PropTypes.func.isRequired,
   // error: PropTypes.object.isRequired,
   login: PropTypes.func.isRequired,
   push: PropTypes.func.isRequired,
@@ -100,5 +103,5 @@ LoginForm.defaultProps = {
 
 export default connect(
   mapStateToProps,
-  { login, push },
+  { login, push, initSocket },
 )(LoginForm);
