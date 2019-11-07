@@ -41,7 +41,7 @@ function GroupForm(props) {
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
   const { socket, user } = props;
-  const [group, changeGroup] = useState({ name: '', users: [user.id], task: [] });
+  const [group, changeGroup] = useState({ name: '', users: [{ id: user.id }] });
 
   const handleChange = (event) => {
     const {

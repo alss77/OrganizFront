@@ -61,9 +61,10 @@ function CardDashboard(props) {
   const { user, groupList } = props;
 
   useEffect(() => {
-    if (groupList.empty)
+    if (!groupList.empty) {
       props.initGroup(user);
-  }, [props, user]);
+    }
+  }, [props, user, groupList]);
 
   return (
     <Card className={classes.card}>
