@@ -1,14 +1,18 @@
+import axios from 'axios';
 import io from 'socket.io-client';
 import {
   ADD_TASK,
   ADD_USER_TEAM,
   ADD_USER_TASK,
   CREATE_GROUP,
+  GET_USERS,
+  GET_USERS_FAIL,
   CREATE_GROUP_FAIL,
   INIT_SOCKET,
   RECEIVE_TASK,
   INIT_GROUPS,
-  NO_GROUPS,
+  INIT_TASK,
+  // NO_GROUPS,
 } from './types';
 
 export const initSocket = () => (dispatch) => {
@@ -19,18 +23,26 @@ export const initSocket = () => (dispatch) => {
   });
 };
 
-export const initGroup = (user) => (dispatch) => {
-  // console.log(user);
+export const initGroup = (/* user */) => (dispatch) => {
+  /* console.log(user);
   if (Object.keys(user).includes('teams')) {
     dispatch({
       type: NO_GROUPS,
     });
-  } else {
-    dispatch({
-      type: INIT_GROUPS,
-      payload: [{ name: 'toto' }, { name: 'test' }],
-    });
-  }
+  } else { */
+  console.log('init group !!!!');
+  dispatch({
+    type: INIT_GROUPS,
+    payload: [{ name: 'toto' }, { name: 'test' }],
+  });
+  /* } */
+};
+
+export const initTask = (user, name) => (dispatch) => {
+  dispatch({
+    type: INIT_TASK,
+    payload: user.teams.find((elm) => elm.name === name),
+  });
 };
 
 export const createGroup = (group, socket) => (dispatch) => {
@@ -46,6 +58,30 @@ export const createGroup = (group, socket) => (dispatch) => {
       type: CREATE_GROUP_FAIL,
     });
   }
+};
+
+export const getUsers = () => (dispatch) => {
+  // Headers
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+
+  // Request Body
+  axios.get('http://localhost:4000/user/all', config)
+    .then((res) => {
+      dispatch({
+        type: GET_USERS,
+        payload: res.data,
+      });
+    })
+    .catch((/* err */) => {
+      // dispatch(returnErrors(err.response.data, err.response.status, 'REGISTER_FAIL'))
+      dispatch({
+        type: GET_USERS_FAIL,
+      });
+    });
 };
 
 export const RetrieveTask = (group, socket) => (dispatch) => {

@@ -10,7 +10,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types/prop-types';
-import { initGroup } from '../../store/actions/socketActions';
+import { push } from 'connected-react-router';
+import { initGroup, initTask } from '../../store/actions/socketActions';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -55,21 +56,25 @@ const mapStateToProps = (state) => ({
   groupList: state.socket.groupList,
 });
 
-
 function CardDashboard(props) {
   const classes = useStyles();
   const { user, groupList } = props;
 
   useEffect(() => {
-    if (!groupList.empty) {
+    if (groupList.length === 0) {
       props.initGroup(user);
     }
-  }, [props, user, groupList]);
+  }, [props, groupList, user]);
+
+  function listclick(lname) {
+    props.initTask(user, lname);
+    props.push(`/group/${lname}`);
+  }
 
   return (
     <Card className={classes.card}>
       <CardHeader
-        title={`Bonjour ${user.firstName} ${user.lastName}`}
+        title="Bonjour"
         subheader="Vous trouverez ici vos tâches et groupes auquel vous appartenez"
       />
       <CardContent>
@@ -77,12 +82,12 @@ function CardDashboard(props) {
           <ul className={classes.ul}>
             <ListSubheader className={classes.header}>Liste de vos Groupes</ListSubheader>
             {
-              (!groupList.empty) ? (
+              (groupList.empty) ? (
                 <Typography> Vous ne faites parti de aucun groupe</Typography>
               ) : (
                   groupList.map(({ name }) => (
-                    <ListItem alignItems="center" key={`item-${name}`}>
-                      <ListItemText primary={`${name}`} />
+                    <ListItem button onClick={() => listclick(name)} key={name}>
+                      <ListItemText primary={name} />
                     </ListItem>
                   ))
                 )
@@ -96,8 +101,10 @@ function CardDashboard(props) {
 
 CardDashboard.propTypes = {
   initGroup: PropTypes.func.isRequired,
+  initTask: PropTypes.func.isRequired,
   groupList: PropTypes.oneOfType([PropTypes.array]),
   user: PropTypes.oneOfType([PropTypes.object]),
+  push: PropTypes.func.isRequired,
 };
 
 CardDashboard.defaultProps = {
@@ -105,4 +112,4 @@ CardDashboard.defaultProps = {
   user: null,
 };
 
-export default connect(mapStateToProps, { initGroup })(CardDashboard);
+export default connect(mapStateToProps, { initGroup, push, initTask })(CardDashboard);

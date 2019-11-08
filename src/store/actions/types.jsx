@@ -22,3 +22,6 @@ export const INIT_SOCKET = 'INIT_SOCKET';
 export const RECEIVE_GROUP = 'RECEIVE_GROUP';
 export const INIT_GROUPS = 'INIT_GROUPS';
 export const NO_GROUPS = 'NO_GROUPS';
+export const INIT_TASK = 'INIT_TASK';
+export const GET_USERS = 'GET_USERS';
+export const GET_USERS_FAIL = 'GET_USERS_FAIL';

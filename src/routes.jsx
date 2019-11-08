@@ -11,6 +11,7 @@ import LoginForm from './hooks/LoginForm';
 import Dashboard from './hooks/DashBoard';
 import NavBar from './components/NavBar';
 import { history } from './store';
+import TaskList from './hooks/TaskList';
 
 const Routes = ({ isAuthentificated }) => (
   <div>
@@ -19,13 +20,18 @@ const Routes = ({ isAuthentificated }) => (
       <br />
       <div>
         <Switch>
-          <Route exact path="/login" component={LoginForm} />
-          <Route path="/register" component={RegisterForm} />
+          <PrivateRoute
+            path="/group/:name"
+            auth={isAuthentificated}
+            funct={TaskList}
+          />
           <PrivateRoute
             path="/dashboard"
             auth={isAuthentificated}
             funct={Dashboard}
           />
+          <Route exact path="/login" component={LoginForm} />
+          <Route path="/register" component={RegisterForm} />
           <Route exact path="/" component={LoginForm} />
         </Switch>
       </div>
