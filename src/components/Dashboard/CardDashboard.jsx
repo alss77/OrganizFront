@@ -67,10 +67,10 @@ function CardDashboard(props) {
     }
   }, [props, groupList, user]);
 
-  function listclick(lname) {
-    props.initTask(lname, token);
+  const listclick = async (lname) => {
+    await props.initTask(lname, groupList /* token */);
     props.push(`/group/${lname}`);
-  }
+  };
 
   return (
     <Card className={classes.card}>

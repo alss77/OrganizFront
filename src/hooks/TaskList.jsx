@@ -7,11 +7,11 @@ import Task from '../components/Task/Task';
 import UserForm from '../components/Task/UserForm';
 
 const mapStateToProps = (state) => ({
-  taskList: state.socket.taskList,
+  tlist: state.socket.taskList,
 });
 
 function TaskList(props) {
-  const { taskList } = props;
+  const { tlist } = props;
 
   return (
     <div>
@@ -25,9 +25,10 @@ function TaskList(props) {
         <UserForm />
       </div>
       <div>
+        {console.log('list: ', tlist)}
         {
-          (Object.keys(taskList).includes('task')) ? (
-            taskList.task.map((task) => (
+          (Object.keys(tlist).includes('task')) ? (
+            tlist.task.map((task) => (
               <Task key={task.cardName} taskcontent={task.content} tasktitle={task.cardName} />
             ))
           ) : (
@@ -40,11 +41,11 @@ function TaskList(props) {
 }
 
 TaskList.propTypes = {
-  taskList: PropTypes.oneOfType([PropTypes.object]),
+  tlist: PropTypes.oneOfType([PropTypes.object]),
 };
 
 TaskList.defaultProps = {
-  taskList: null,
+  tlist: null,
 };
 
 export default connect(mapStateToProps)(TaskList);
