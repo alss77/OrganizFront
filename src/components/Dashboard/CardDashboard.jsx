@@ -67,17 +67,21 @@ function CardDashboard(props) {
   }, [props, groupList, user]);
 
   function listclick(lname) {
-    props.initTask(user, lname);
+    props.initTask(groupList, lname);
     props.push(`/group/${lname}`);
   }
 
   return (
     <Card className={classes.card}>
       <CardHeader
-        title="Bonjour"
+        title={`Bonjour ${user.firstName} ${user.lastName}`}
         subheader="Vous trouverez ici vos tâches et groupes auquel vous appartenez"
       />
       <CardContent>
+        <Typography variant="h5" component="h2">
+          Voici votre ID:
+          {user.id}
+        </Typography>
         <List className={classes.list} subheader={<li />}>
           <ul className={classes.ul}>
             <ListSubheader className={classes.header}>Liste de vos Groupes</ListSubheader>

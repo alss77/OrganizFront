@@ -1,18 +1,16 @@
-import axios from 'axios';
 import io from 'socket.io-client';
 import {
   ADD_TASK,
   ADD_USER_TEAM,
   ADD_USER_TASK,
   CREATE_GROUP,
-  GET_USERS,
-  GET_USERS_FAIL,
   CREATE_GROUP_FAIL,
   INIT_SOCKET,
   RECEIVE_TASK,
   INIT_GROUPS,
   INIT_TASK,
-  // NO_GROUPS,
+  NO_GROUPS,
+  CREATE_TASK,
 } from './types';
 
 export const initSocket = () => (dispatch) => {
@@ -23,31 +21,28 @@ export const initSocket = () => (dispatch) => {
   });
 };
 
-export const initGroup = (/* user */) => (dispatch) => {
-  /* console.log(user);
+export const initGroup = (user) => (dispatch) => {
   if (Object.keys(user).includes('teams')) {
+    dispatch({
+      type: INIT_GROUPS,
+      payload: user.teams,
+    });
+  } else {
     dispatch({
       type: NO_GROUPS,
     });
-  } else { */
-  console.log('init group !!!!');
-  dispatch({
-    type: INIT_GROUPS,
-    payload: [{ name: 'toto' }, { name: 'test' }],
-  });
-  /* } */
+  }
 };
 
-export const initTask = (user, name) => (dispatch) => {
+export const initTask = (group, name) => (dispatch) => {
   dispatch({
     type: INIT_TASK,
-    payload: user.teams.find((elm) => elm.name === name),
+    payload: group.find((elm) => elm.name === name),
   });
 };
 
 export const createGroup = (group, socket) => (dispatch) => {
-  // console.log(group);
-  if (group.name !== '') {
+  if (group.name.length > 3) {
     socket.emit('createTeam', group);
     dispatch({
       type: CREATE_GROUP,
@@ -60,31 +55,7 @@ export const createGroup = (group, socket) => (dispatch) => {
   }
 };
 
-export const getUsers = () => (dispatch) => {
-  // Headers
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  };
-
-  // Request Body
-  axios.get('http://localhost:4000/user/all', config)
-    .then((res) => {
-      dispatch({
-        type: GET_USERS,
-        payload: res.data,
-      });
-    })
-    .catch((/* err */) => {
-      // dispatch(returnErrors(err.response.data, err.response.status, 'REGISTER_FAIL'))
-      dispatch({
-        type: GET_USERS_FAIL,
-      });
-    });
-};
-
-export const RetrieveTask = (group, socket) => (dispatch) => {
+export const retrieveTask = (group, socket) => (dispatch) => {
   socket.on(group, (task) => {
     dispatch({
       payload: task,
@@ -93,21 +64,35 @@ export const RetrieveTask = (group, socket) => (dispatch) => {
   });
 };
 
-export const AddUserTeam = (team, socket) => (dispatch) => {
-  socket.emit('addUserToTeam', team);
+export const addUserTeam = (teamID, user, socket) => (dispatch) => {
+  const body = { teamId: teamID, userId: user };
+  socket.emit('addUserToTeam', body);
   dispatch({
     type: ADD_USER_TEAM,
   });
 };
 
-export const AddTaskTeam = (team, socket) => (dispatch) => {
-  socket.emit('addTaskToTeam', team);
+export const createTask = (task, socket) => (dispatch) => {
+  socket.on(task.team.id, () => {
+    socket.emit('createTask', task);
+  });
   dispatch({
-    type: ADD_TASK,
+    type: CREATE_TASK,
+    payload: task,
   });
 };
 
-export const AddUserTask = (team, socket) => (dispatch) => {
+export const addTaskTeam = (task, socket) => (dispatch) => {
+  socket.on(task.team.id, () => {
+    socket.emit('addTaskToTeam', task);
+  });
+  dispatch({
+    type: ADD_TASK,
+    payload: task,
+  });
+};
+
+export const addUserTask = (team, socket) => (dispatch) => {
   socket.emit('addUserToTask', team);
   dispatch({
     type: ADD_USER_TASK,

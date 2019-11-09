@@ -7,7 +7,7 @@ import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types/prop-types';
-import { createGroup } from '../../store/actions/socketActions';
+import { addUserTeam } from '../../store/actions/socketActions';
 
 function getModalStyle() {
   const top = 50;
@@ -33,41 +33,43 @@ const useStyles = makeStyles((theme) => ({
 
 const mapStateToProps = (state) => ({
   socket: state.socket.socket,
-  user: state.auth.user,
+  taskList: state.socket.taskList,
 });
 
 function GroupForm(props) {
   const [modal, changeModalState] = useState(false);
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
-  const { socket, user } = props;
-  const [groupname, changeGroup] = useState('');
+  const { socket, taskList } = props;
+  const [newuser, changeNewUser] = useState('');
+
+  const handleChange = (event) => {
+    changeNewUser(event.target);
+  };
 
   const toggle = () => {
     changeModalState(!modal);
   };
 
   const handleSubmit = () => {
-    const randomid = `${Math.random()}${groupname.substr(0, 3)}`;
-    const body = { name: groupname, users: [{ id: user.id }], id_team: randomid };
-    props.createGroup(body, socket);
+    props.addUserTeam(taskList.id_team, newuser, socket);
     toggle();
   };
 
   return (
     <div>
       <Button onClick={toggle}>
-        Creer un groupe
+        Ajouter un utilisateur
       </Button>
       <Modal open={modal} onClose={() => changeModalState(false)}>
         <div style={modalStyle} className={classes.paper}>
-          <h2 id="simple-modal-title">Création de groupe </h2>
+          <h2 id="simple-modal-title">Ajouter un utilisateur </h2>
           <FormControl>
-            <InputLabel htmlFor="component-simple">Nom du groupe</InputLabel>
-            <Input className="form-control" id="name" onChange={(e) => changeGroup(e.target.value)} type="text" name="name" required />
+            <InputLabel htmlFor="component-simple">Id de utilisateur</InputLabel>
+            <Input className="form-control" id="id" onChange={handleChange} type="text" name="id" required />
           </FormControl>
           <Button variant="contained" onClick={handleSubmit}>
-            Create
+            Ajouter
           </Button>
         </div>
       </Modal>
@@ -76,14 +78,14 @@ function GroupForm(props) {
 }
 
 GroupForm.propTypes = {
-  createGroup: PropTypes.func.isRequired,
+  addUserTeam: PropTypes.func.isRequired,
   socket: PropTypes.oneOfType([PropTypes.object]),
-  user: PropTypes.oneOfType([PropTypes.object]),
+  taskList: PropTypes.oneOfType([PropTypes.object]),
 };
 
 GroupForm.defaultProps = {
   socket: null,
-  user: null,
+  taskList: null,
 };
 
-export default connect(mapStateToProps, { createGroup })(GroupForm);
+export default connect(mapStateToProps, { addUserTeam })(GroupForm);

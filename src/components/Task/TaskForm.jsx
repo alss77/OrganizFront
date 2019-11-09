@@ -5,6 +5,9 @@ import { Button } from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types/prop-types';
+import { addTaskTeam, createTask } from '../../store/actions/socketActions';
 
 function getModalStyle() {
   const top = 50;
@@ -28,26 +31,34 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function TaskForm() {
+const mapStateToProps = (state) => ({
+  taskList: state.socket.taskList,
+  user: state.auth.user,
+  socket: state.socket.socket,
+});
+
+function TaskForm(props) {
+  const { user, taskList, socket } = props;
   const [modal, changeModalState] = useState(false);
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
-  const [task, setTask] = useState({ taskName: '', taskDesc: '', taskAuthor: '' });
-
-  const handleChange = (event) => {
-    const {
-      name, value,
-    } = event.target;
-    setTask({
-      ...task, [name]: value,
-    });
-  };
+  const [tcardName, changeName] = useState('');
+  const [tcontent, changeContent] = useState('');
 
   const toggle = () => {
     changeModalState(!modal);
   };
 
   const handleSubmit = () => {
+    const body = {
+      content: tcontent, cardName: tcardName, team: taskList, users: [user.id],
+    };
+    console.log('body: ', body);
+    if (Object.keys(taskList).includes('task')) {
+      props.addTaskTeam(body, socket);
+    } else {
+      props.createTask(body, socket);
+    }
     toggle();
   };
 
@@ -59,25 +70,41 @@ function TaskForm() {
       <Modal open={modal} onClose={() => changeModalState(false)}>
         <div style={modalStyle} className={classes.paper}>
           <h2 id="simple-modal-title">Ajout de task </h2>
-          <FormControl>
-            <InputLabel htmlFor="component-simple">Nom</InputLabel>
-            <Input className="form-control" name="taskName" id="taskName" onChange={handleChange} type="text" required />
-          </FormControl>
-          <FormControl>
-            <InputLabel htmlFor="component-simple">Description</InputLabel>
-            <Input className="form-control" name="taskDesc" id="taskDesc" onChange={handleChange} type="text" />
-          </FormControl>
-          <FormControl>
-            <InputLabel htmlFor="component-simple">Auteur</InputLabel>
-            <Input className="form-control" name="taskAuthor" id="taskAuthor" onChange={handleChange} type="text" required />
-          </FormControl>
-          <Button variant="contained" onClick={handleSubmit}>
-            Create
-          </Button>
+          <div>
+            <FormControl>
+              <InputLabel htmlFor="component-simple">Nom</InputLabel>
+              <Input className="form-control" name="cardName" id="cardName" onChange={(e) => changeName(e.target.value)} type="text" required />
+            </FormControl>
+          </div>
+          <div>
+            <FormControl>
+              <InputLabel htmlFor="component-simple">Description</InputLabel>
+              <Input className="form-control" name="content" id="content" onChange={(e) => changeContent(e.target.value)} type="text" />
+            </FormControl>
+          </div>
+          <div>
+            <Button variant="contained" onClick={handleSubmit}>
+              Create
+            </Button>
+          </div>
         </div>
       </Modal>
     </div>
   );
 }
 
-export default TaskForm;
+TaskForm.propTypes = {
+  addTaskTeam: PropTypes.func.isRequired,
+  createTask: PropTypes.func.isRequired,
+  taskList: PropTypes.oneOfType([PropTypes.object]),
+  user: PropTypes.oneOfType([PropTypes.object]),
+  socket: PropTypes.oneOfType([PropTypes.object]),
+};
+
+TaskForm.defaultProps = {
+  taskList: null,
+  user: null,
+  socket: null,
+};
+
+export default connect(mapStateToProps, { addTaskTeam, createTask })(TaskForm);

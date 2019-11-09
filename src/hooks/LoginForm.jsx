@@ -15,6 +15,7 @@ import { initSocket } from '../store/actions/socketActions';
 
 const mapStateToProps = (state) => ({
   isAuthentificated: state.auth.isAuthentificated,
+  user: state.auth.user,
 });
 
 const useStyles = makeStyles((theme) => ({
@@ -37,14 +38,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function LoginForm(props) {
-  // const [labelWidth, setLabelWidth] = React.useState(0);
   const [profile, setProfile] = React.useState({ email: '', password: '' });
-  // const labelRef = React.useRef(null);
   const classes = useStyles();
 
   useEffect(() => {
     if (props.isAuthentificated) {
-      props.push('/dashboard');
+      props.push(`/${props.user.firstName}/${props.user.lastName}/dashboard`);
     }
   });
 
@@ -63,27 +62,33 @@ function LoginForm(props) {
       <h1 className={classes.h1}>WELCOME TO ORGANIZ !</h1>
       <Card className={classes.card}>
         <CardHeader title="Connectez-vous ici!" />
-        <FormControl className={classes.formControl}>
-          <InputLabel htmlFor="component-simple">Mail</InputLabel>
-          <Input
-            name="email"
-            id="email"
-            value={profile.email}
-            onChange={handleChange}
-          />
-        </FormControl>
-        <FormControl className={classes.formControl}>
-          <InputLabel htmlFor="component-simple">Password</InputLabel>
-          <Input
-            name="password"
-            id="password"
-            value={profile.password}
-            onChange={handleChange}
-          />
-        </FormControl>
-        <Button variant="contained" onClick={handleSubmit}>
-          Login
-        </Button>
+        <div>
+          <FormControl className={classes.formControl}>
+            <InputLabel htmlFor="component-simple">Mail</InputLabel>
+            <Input
+              name="email"
+              id="email"
+              value={profile.email}
+              onChange={handleChange}
+            />
+          </FormControl>
+        </div>
+        <div>
+          <FormControl className={classes.formControl}>
+            <InputLabel htmlFor="component-simple">Password</InputLabel>
+            <Input
+              name="password"
+              id="password"
+              value={profile.password}
+              onChange={handleChange}
+            />
+          </FormControl>
+        </div>
+        <div>
+          <Button variant="contained" onClick={handleSubmit}>
+            Login
+          </Button>
+        </div>
       </Card>
     </div>
   );
@@ -92,13 +97,14 @@ function LoginForm(props) {
 LoginForm.propTypes = {
   isAuthentificated: PropTypes.bool,
   initSocket: PropTypes.func.isRequired,
-  // error: PropTypes.object.isRequired,
+  user: PropTypes.oneOfType([PropTypes.object]),
   login: PropTypes.func.isRequired,
   push: PropTypes.func.isRequired,
 };
 
 LoginForm.defaultProps = {
   isAuthentificated: null,
+  user: null,
 };
 
 export default connect(

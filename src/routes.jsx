@@ -26,7 +26,7 @@ const Routes = ({ isAuthentificated }) => (
             funct={TaskList}
           />
           <PrivateRoute
-            path="/dashboard"
+            path="/:firstname/:lastname/dashboard"
             auth={isAuthentificated}
             funct={Dashboard}
           />

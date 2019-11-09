@@ -25,3 +25,4 @@ export const NO_GROUPS = 'NO_GROUPS';
 export const INIT_TASK = 'INIT_TASK';
 export const GET_USERS = 'GET_USERS';
 export const GET_USERS_FAIL = 'GET_USERS_FAIL';
+export const CREATE_TASK = 'CREATE_TASK';

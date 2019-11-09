@@ -1,19 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types/prop-types';
+import { Typography } from '@material-ui/core';
 import TaskFrom from '../components/Task/TaskForm';
 import Task from '../components/Task/Task';
+import UserForm from '../components/Task/UserForm';
 
 const mapStateToProps = (state) => ({
-  user: state.auth.user,
-  socket: state.socket.socket,
   taskList: state.socket.taskList,
-  users: state.socket.users,
 });
-
 
 function TaskList(props) {
   const { taskList } = props;
+
   return (
     <div>
       <div>
@@ -23,10 +22,17 @@ function TaskList(props) {
         <TaskFrom />
       </div>
       <div>
+        <UserForm />
+      </div>
+      <div>
         {
-          taskList.map((task) => (
-            <Task key={task} content={task.content} />
-          ))
+          (Object.keys(taskList).includes('task')) ? (
+            taskList.task.map((task) => (
+              <Task key={task.cardName} taskcontent={task.content} tasktitle={task.cardName} />
+            ))
+          ) : (
+              <Typography>Pas de tasks pour le moment</Typography>
+            )
         }
       </div>
     </div>
@@ -34,13 +40,11 @@ function TaskList(props) {
 }
 
 TaskList.propTypes = {
-  taskList: PropTypes.oneOfType([PropTypes.array]),
-  user: PropTypes.oneOfType([PropTypes.object]),
+  taskList: PropTypes.oneOfType([PropTypes.object]),
 };
 
 TaskList.defaultProps = {
-  taskList: [],
-  user: null,
+  taskList: null,
 };
 
-export default connect(mapStateToProps, {})(TaskList);
+export default connect(mapStateToProps)(TaskList);

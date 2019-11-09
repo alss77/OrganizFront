@@ -32,16 +32,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function RegisterForm(props) {
-  //  const [labelWidth, setLabelWidth] = React.useState(0);
   const [profile, setProfile] = React.useState({
     firstName: '', lastName: '', email: '', password: '',
   });
-  //  const labelRef = React.useRef(null);
   const classes = useStyles();
 
   useEffect(() => {
     if (props.isAuthentificated) {
-      props.push('/dashboard');
+      props.push(`/${props.user.firstName}/${props.user.lastName}/dashboard`);
     }
   });
 
@@ -94,17 +92,19 @@ function RegisterForm(props) {
 RegisterForm.propTypes = {
   isAuthentificated: PropTypes.bool,
   initSocket: PropTypes.func.isRequired,
-  // error: PropTypes.object.isRequired,
+  user: PropTypes.oneOfType([PropTypes.object]),
   register: PropTypes.func.isRequired,
   push: PropTypes.func.isRequired,
 };
 
 RegisterForm.defaultProps = {
   isAuthentificated: false,
+  user: null,
 };
 
 const mapStateToProps = (state) => ({
   isAuthentificated: state.auth.isAuthentificated,
+  user: state.auth.user,
 });
 
 export default connect(mapStateToProps, { register, push, initSocket })(RegisterForm);

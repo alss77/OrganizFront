@@ -1,13 +1,12 @@
 import {
-  ADD_TASK, UPDATE_TASK, DELETE_TASK, INIT_SOCKET, INIT_GROUPS, NO_GROUPS, CREATE_GROUP, GET_USERS,
-  GET_USERS_FAIL,
+  ADD_TASK, UPDATE_TASK, DELETE_TASK, INIT_SOCKET, INIT_GROUPS, NO_GROUPS, CREATE_GROUP,
+  INIT_TASK, CREATE_TASK,
 } from '../actions/types';
 
 const initialState = {
   socket: null,
-  taskList: [],
+  taskList: null,
   groupList: [],
-  users: [],
 };
 
 export default function (state = initialState, action) {
@@ -22,6 +21,11 @@ export default function (state = initialState, action) {
         ...state,
         groupList: action.payload,
       };
+    case INIT_TASK:
+      return {
+        ...state,
+        taskList: action.payload,
+      };
     case CREATE_GROUP:
       return {
         ...state,
@@ -30,18 +34,27 @@ export default function (state = initialState, action) {
           action.payload,
         ],
       };
-    case GET_USERS:
+    case CREATE_TASK:
       return {
         ...state,
-        users: action.payload,
+        taskList: {
+          ...state.taskList,
+          task: [action.payload],
+        },
       };
     case ADD_TASK:
     case UPDATE_TASK:
     case DELETE_TASK:
       return {
-        taskList: action.payload,
+        ...state,
+        taskList: {
+          ...state.taskList,
+          task: [
+            ...state.taskList.task,
+            action.payload,
+          ],
+        },
       };
-    case GET_USERS_FAIL:
     case NO_GROUPS:
     default:
       return state;
