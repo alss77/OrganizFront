@@ -26,3 +26,4 @@ export const INIT_TASK = 'INIT_TASK';
 export const GET_USERS = 'GET_USERS';
 export const GET_USERS_FAIL = 'GET_USERS_FAIL';
 export const CREATE_TASK = 'CREATE_TASK';
+export const INIT_TASK_FAIL = 'INIT_TASK_FAIL';

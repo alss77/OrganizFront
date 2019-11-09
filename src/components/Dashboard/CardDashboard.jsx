@@ -54,11 +54,12 @@ const mapStateToProps = (state) => ({
   user: state.auth.user,
   socket: state.socket.socket,
   groupList: state.socket.groupList,
+  token: state.auth.token,
 });
 
 function CardDashboard(props) {
   const classes = useStyles();
-  const { user, groupList } = props;
+  const { user, groupList, token } = props;
 
   useEffect(() => {
     if (groupList.length === 0) {
@@ -67,7 +68,7 @@ function CardDashboard(props) {
   }, [props, groupList, user]);
 
   function listclick(lname) {
-    props.initTask(groupList, lname);
+    props.initTask(lname, token);
     props.push(`/group/${lname}`);
   }
 
@@ -109,11 +110,13 @@ CardDashboard.propTypes = {
   groupList: PropTypes.oneOfType([PropTypes.array]),
   user: PropTypes.oneOfType([PropTypes.object]),
   push: PropTypes.func.isRequired,
+  token: PropTypes.string,
 };
 
 CardDashboard.defaultProps = {
   groupList: [],
   user: null,
+  token: '',
 };
 
 export default connect(mapStateToProps, { initGroup, push, initTask })(CardDashboard);

@@ -1,4 +1,5 @@
 import io from 'socket.io-client';
+import axios from 'axios';
 import {
   ADD_TASK,
   ADD_USER_TEAM,
@@ -11,6 +12,7 @@ import {
   INIT_TASK,
   NO_GROUPS,
   CREATE_TASK,
+  INIT_TASK_FAIL,
 } from './types';
 
 export const initSocket = () => (dispatch) => {
@@ -34,11 +36,28 @@ export const initGroup = (user) => (dispatch) => {
   }
 };
 
-export const initTask = (group, name) => (dispatch) => {
-  dispatch({
-    type: INIT_TASK,
-    payload: group.find((elm) => elm.name === name),
-  });
+export const initTask = (name, token) => (dispatch) => {
+  // Headers
+  const config = {
+    headers: {
+      authorization: `bearer ${token}`,
+    },
+  };
+  console.log('config: ', config);
+  axios.get('http://localhost:4000/user/me', config)
+    .then((res) => {
+      console.log(res.data);
+      dispatch({
+        type: INIT_TASK,
+        payload: res.data.teams.find((elm) => elm.name === name),
+      });
+    })
+    .catch((/* err */) => {
+      // dispatch(returnErrors(err.response.data, err.response.status));
+      dispatch({
+        type: INIT_TASK_FAIL,
+      });
+    });
 };
 
 export const createGroup = (group, socket) => (dispatch) => {
@@ -73,9 +92,8 @@ export const addUserTeam = (teamID, user, socket) => (dispatch) => {
 };
 
 export const createTask = (task, socket) => (dispatch) => {
-  socket.on(task.team.id, () => {
-    socket.emit('createTask', task);
-  });
+  socket.on('joinRoom', task.team.id);
+  socket.to(task.team.id).emit('createTask', task);
   dispatch({
     type: CREATE_TASK,
     payload: task,

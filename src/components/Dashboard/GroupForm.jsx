@@ -48,8 +48,7 @@ function GroupForm(props) {
   };
 
   const handleSubmit = () => {
-    const randomid = `${Math.random()}${groupname.substr(0, 3)}`;
-    const body = { name: groupname, users: [{ id: user.id }], id_team: randomid };
+    const body = { name: groupname, users: [{ id: user.id }] };
     props.createGroup(body, socket);
     toggle();
   };
