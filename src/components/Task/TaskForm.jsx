@@ -51,7 +51,7 @@ function TaskForm(props) {
 
   const handleSubmit = () => {
     const body = {
-      content: tcontent, cardName: tcardName, team: taskList, users: [user.id],
+      content: tcontent, cardName: tcardName, team: taskList, users: [{ id: user.id }],
     };
     console.log('body: ', body);
     if (Object.keys(taskList).includes('task')) {

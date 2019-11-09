@@ -36,7 +36,7 @@ export const initGroup = (user) => (dispatch) => {
   }
 };
 
-export const initTask = (name, groupList, /* token */) => (dispatch) => {
+export const initTask = (name, groupList, socket /* token */) => (dispatch) => {
   // Headers
   /* const config = {
     headers: {
@@ -47,6 +47,10 @@ export const initTask = (name, groupList, /* token */) => (dispatch) => {
   axios.get('http://localhost:4000/user/me', config)
     .then((res) => {
       console.log(res.data); */
+
+  // Connected, let's sign-up for to receive messages for this room
+  const tab = groupList.find((elm) => elm.name === name);
+  socket.emit('joinRoom', (tab.id).toString());
   dispatch({
     type: INIT_TASK,
     // payload: res.data.teams.find((elm) => elm.name === name),
@@ -93,8 +97,7 @@ export const addUserTeam = (teamID, user, socket) => (dispatch) => {
 };
 
 export const createTask = (task, socket) => (dispatch) => {
-  socket.on('joinRoom', task.team.id);
-  socket.on('createTask', () => socket.emit(task));
+  socket.emit('createTask', task);
   dispatch({
     type: CREATE_TASK,
     payload: task,
