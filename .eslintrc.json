@@ -3,5 +3,9 @@
     "airbnb",
     "airbnb/hooks"
   ],
-  "rules": {}
+  "rules": {},
+  "env": {
+    "browser": true,
+    "node": true
+  }
 }

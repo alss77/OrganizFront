@@ -35,7 +35,14 @@ export default {
     page: 'Add a user',
   },
   taskList: {
+    title: 'Task list',
     emptyList: 'Your task list is empty for now',
+  },
+  userForm: {
+    button: 'Add a user',
+    title: 'Add a user',
+    id: 'User\'s ID',
+    submit: 'Add',
   },
   welcome: 'Welcome to Organiz',
   menu_button: {

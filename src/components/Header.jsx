@@ -73,15 +73,13 @@ function Header() {
   });
 
   const setLangFr = () => {
-    console.log('set to fr');
-    counterpart.setLocale(localStorage.getItem('lang'));
     localStorage.setItem('lang', 'fr');
+    counterpart.setLocale(localStorage.getItem('lang'));
   };
 
   const setLangEn = () => {
-    console.log('set to en');
-    counterpart.setLocale(localStorage.getItem('lang'));
     localStorage.setItem('lang', 'en');
+    counterpart.setLocale(localStorage.getItem('lang'));
   };
 
   return (

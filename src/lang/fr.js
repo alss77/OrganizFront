@@ -35,7 +35,14 @@ export default {
     page: 'Ajouter un utilisateur',
   },
   taskList: {
+    title: 'Liste des tâches',
     emptyList: 'Votre liste de tâche est vide pour le moment',
+  },
+  userForm: {
+    button: 'Ajouter un utilisateur',
+    title: 'Ajout un utilisateur',
+    id: 'Id de l\'utilisateur',
+    submit: 'Ajouter',
   },
   welcome: 'Bienvenue sur Organiz',
   menu_button: {

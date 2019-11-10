@@ -6,9 +6,15 @@ import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import { connect } from 'react-redux';
+import counterpart from 'counterpart';
+import Translate from 'react-translate-component';
 import PropTypes from 'prop-types/prop-types';
 import { addUserTeam } from '../../store/actions/socketActions';
+import fr from '../../lang/fr';
+import en from '../../lang/en';
 
+counterpart.registerTranslations('fr', fr);
+counterpart.registerTranslations('en', en);
 function getModalStyle() {
   const top = 50;
   const left = 50;
@@ -59,17 +65,21 @@ function GroupForm(props) {
   return (
     <div>
       <Button onClick={toggle}>
-        Ajouter un utilisateur
+        <Translate content="userForm.button" />
       </Button>
       <Modal open={modal} onClose={() => changeModalState(false)}>
         <div style={modalStyle} className={classes.paper}>
-          <h2 id="simple-modal-title">Ajouter un utilisateur </h2>
+          <h2 id="simple-modal-title">
+            <Translate content="userForm.title" />
+          </h2>
           <FormControl>
-            <InputLabel htmlFor="component-simple">Id de utilisateur</InputLabel>
+            <InputLabel htmlFor="component-simple">
+              <Translate content="userForm.id" />
+            </InputLabel>
             <Input className="form-control" id="id" onChange={handleChange} type="text" name="id" required />
           </FormControl>
           <Button variant="contained" onClick={handleSubmit}>
-            Ajouter
+            <Translate content="userForm.submit" />
           </Button>
         </div>
       </Modal>
