@@ -13,7 +13,7 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types/prop-types';
 import { push } from 'connected-react-router';
-import { initGroup, initTask, loadingtoggle } from '../../store/actions/socketActions';
+import { initGroup, initTask, loadingtoggle, initId } from '../../store/actions/socketActions';
 import fr from '../../lang/fr';
 import en from '../../lang/en';
 
@@ -72,16 +72,21 @@ function CardDashboard(props) {
   const {
     user, groupList, socket, isLoaded,
   } = props;
+  const [init, changeInit] = useState(0);
 
   useEffect(() => {
-    props.loadingtoggle();
-    if (groupList.length === 0) {
-      props.initGroup(user);
+    if (init === 0) {
+      props.loadingtoggle();
+      if (groupList.length === 0) {
+        props.initGroup(user);
+        props.loadingtoggle();
+      }
+      changeInit(1);
     }
-  }, [props, groupList, user]);
+  }, [props, groupList, user, init]);
 
   useEffect(() => {
-    if (isLoaded && activeGroup !== '') {
+    if (isLoaded && activeGroup.length > 0) {
       props.push(`/group/${activeGroup}`);
       props.loadingtoggle();
     }
@@ -90,6 +95,7 @@ function CardDashboard(props) {
   const listclick = async (lname) => {
     changeActive(lname);
     await props.initTask(lname, groupList, socket);
+    props.initId(groupList, lname);
   };
 
   return (
@@ -115,8 +121,8 @@ function CardDashboard(props) {
                 </Typography>
               ) : (
                   groupList.map(({ name, id }) => (
-                    <ListItem button onClick={() => listclick(name)} key={id}>
-                      <ListItemText primary={name} />
+                    <ListItem button key={id} onClick={() => listclick(name)}>
+                      <ListItemText primary={name} key={name} />
                     </ListItem>
                   ))
                 )
@@ -137,7 +143,7 @@ CardDashboard.propTypes = {
   push: PropTypes.func.isRequired,
   socket: PropTypes.oneOfType([PropTypes.object]),
   isLoaded: PropTypes.bool,
-  lang: PropTypes.string,
+  initId: PropTypes.func.isRequired,
 };
 
 CardDashboard.defaultProps = {
@@ -145,9 +151,8 @@ CardDashboard.defaultProps = {
   user: null,
   socket: null,
   isLoaded: false,
-  lang: '',
 };
 
 export default connect(mapStateToProps, {
-  initGroup, push, initTask, loadingtoggle,
+  initGroup, push, initTask, loadingtoggle, initId,
 })(CardDashboard);

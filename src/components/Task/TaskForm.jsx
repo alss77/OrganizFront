@@ -58,14 +58,10 @@ function TaskForm(props) {
 
   const handleSubmit = () => {
     const body = {
-      content: tcontent, cardName: tcardName, team: taskList, users: [{ id: user.id }],
+      content: tcontent, cardName: tcardName, team: taskList.team, users: [{ id: user.id }],
     };
     console.log('body: ', body);
-    if (Object.keys(taskList).includes('task')) {
-      props.addTaskTeam(body, socket);
-    } else {
-      props.createTask(body, socket);
-    }
+    props.createTask(body, socket);
     toggle();
   };
 
@@ -107,15 +103,14 @@ function TaskForm(props) {
 }
 
 TaskForm.propTypes = {
-  addTaskTeam: PropTypes.func.isRequired,
   createTask: PropTypes.func.isRequired,
-  taskList: PropTypes.oneOfType([PropTypes.array]),
+  taskList: PropTypes.oneOfType([PropTypes.object]),
   user: PropTypes.oneOfType([PropTypes.object]),
   socket: PropTypes.oneOfType([PropTypes.object]),
 };
 
 TaskForm.defaultProps = {
-  taskList: [],
+  taskList: null,
   user: null,
   socket: null,
 };

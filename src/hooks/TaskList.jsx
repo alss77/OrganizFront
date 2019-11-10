@@ -27,8 +27,8 @@ function TaskList(props) {
       <div>
         {console.log('list: ', tlist)}
         {
-          (tlist.length > 0) ? (
-            tlist.map((task) => (
+          (tlist.team.task.length > 0) ? (
+            tlist.team.task.map((task) => (
               <Task key={task.cardName} taskcontent={task.content} tasktitle={task.cardName} />
             ))
           ) : (
@@ -41,11 +41,11 @@ function TaskList(props) {
 }
 
 TaskList.propTypes = {
-  tlist: PropTypes.oneOfType([PropTypes.array]),
+  tlist: PropTypes.oneOfType([PropTypes.object]),
 };
 
 TaskList.defaultProps = {
-  tlist: [],
+  tlist: null,
 };
 
 export default connect(mapStateToProps)(TaskList);

@@ -7,8 +7,10 @@ import MenuItem from '@material-ui/core/MenuItem';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import counterpart from 'counterpart';
 import Translate from 'react-translate-component';
+import { push } from 'connected-react-router';
 import fr from '../lang/fr';
 import en from '../lang/en';
+import { logout } from '../store/actions/authActions';
 
 counterpart.registerTranslations('fr', fr);
 counterpart.registerTranslations('en', en);
@@ -20,8 +22,6 @@ const options = [
 const ITEM_HEIGHT = 48;
 
 function LongMenu(props) {
-  const { lang } = props;
-  counterpart.setLocale(lang);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
@@ -30,6 +30,8 @@ function LongMenu(props) {
   };
 
   const handleClose = () => {
+    props.logout();
+    props.push('/login');
     setAnchorEl(null);
   };
 
@@ -67,15 +69,8 @@ function LongMenu(props) {
 }
 
 LongMenu.propTypes = {
-  lang: PropTypes.string,
+  logout: PropTypes.func.isRequired,
+  push: PropTypes.func.isRequired,
 };
 
-LongMenu.defaultProps = {
-  lang: '',
-};
-
-const mapStateToProps = (store) => ({
-  lang: store.lang.lang,
-});
-
-export default connect(mapStateToProps, null)(LongMenu);
+export default connect(null, { logout, push })(LongMenu);

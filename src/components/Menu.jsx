@@ -8,6 +8,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import { Link } from 'react-router-dom';
 import counterpart from 'counterpart';
 import Translate from 'react-translate-component';
+import { push } from 'connected-react-router';
 import fr from '../lang/fr';
 import en from '../lang/en';
 
@@ -25,8 +26,6 @@ const screen = [
 const ITEM_HEIGHT = 48;
 
 function LongMenu(props) {
-  const { lang } = props;
-  counterpart.setLocale(lang);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
@@ -35,6 +34,7 @@ function LongMenu(props) {
   };
 
   const handleClose = () => {
+    props.push(`/${props.user.firstName}/${props.user.lastName}/dashboard`)
     setAnchorEl(null);
   };
 
@@ -76,15 +76,16 @@ function LongMenu(props) {
 }
 
 LongMenu.propTypes = {
-  lang: PropTypes.string,
+  push: PropTypes.func.isRequired,
+  user: PropTypes.oneOfType([PropTypes.object]),
 };
 
 LongMenu.defaultProps = {
-  lang: '',
+  user: null,
 };
 
 const mapStateToProps = (store) => ({
-  lang: store.lang.lang,
+  user: store.auth.user,
 });
 
-export default connect(mapStateToProps, null)(LongMenu);
+export default connect(mapStateToProps, { push })(LongMenu);

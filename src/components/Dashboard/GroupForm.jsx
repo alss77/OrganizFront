@@ -42,7 +42,6 @@ const mapStateToProps = (state) => ({
   socket: state.socket.socket,
   user: state.auth.user,
   token: state.auth.token,
-  isLoaded: state.socket.isLoaded,
 });
 
 function GroupForm(props) {
@@ -50,27 +49,20 @@ function GroupForm(props) {
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
   const {
-    socket, user, token, isLoaded,
+    socket, user, token,
   } = props;
   const [groupname, changeGroup] = useState('');
 
   const closem = async () => {
-    let loading = 0;
-    if (modal === true) {
-      await props.loadgroup(token);
-      loading = 1;
-    }
-    console.log('loading: ', { test: loading, load: isLoaded });
-    if (loading === 1 && isLoaded) {
-      changeModalState(false);
-    }
+    await props.loadgroup(token);
+    changeModalState(false);
   };
 
   const openm = () => changeModalState(true);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const body = { name: groupname, users: [{ id: user.id }] };
-    props.createGroup(body, socket);
+    await props.createGroup(body, socket);
     closem();
   };
 
@@ -105,14 +97,12 @@ GroupForm.propTypes = {
   socket: PropTypes.oneOfType([PropTypes.object]),
   user: PropTypes.oneOfType([PropTypes.object]),
   token: PropTypes.string,
-  isLoaded: PropTypes.bool,
 };
 
 GroupForm.defaultProps = {
   socket: null,
   user: null,
   token: '',
-  isLoaded: false,
 };
 
 export default connect(mapStateToProps, { createGroup, loadgroup })(GroupForm);

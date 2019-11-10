@@ -22,7 +22,6 @@ counterpart.registerTranslations('en', en);
 const mapStateToProps = (state) => ({
   isAuthentificated: state.auth.isAuthentificated,
   user: state.auth.user,
-  lang: state.lang.lang,
 });
 
 const useStyles = makeStyles((theme) => ({
@@ -112,13 +111,11 @@ LoginForm.propTypes = {
   login: PropTypes.func.isRequired,
   push: PropTypes.func.isRequired,
   loadingtoggle: PropTypes.func.isRequired,
-  lang: PropTypes.string,
 };
 
 LoginForm.defaultProps = {
   isAuthentificated: null,
   user: null,
-  lang: '',
 };
 
 export default connect(

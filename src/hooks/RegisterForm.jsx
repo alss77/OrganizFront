@@ -109,19 +109,16 @@ RegisterForm.propTypes = {
   user: PropTypes.oneOfType([PropTypes.object]),
   register: PropTypes.func.isRequired,
   push: PropTypes.func.isRequired,
-  lang: PropTypes.string,
 };
 
 RegisterForm.defaultProps = {
   isAuthentificated: false,
   user: null,
-  lang: '',
 };
 
 const mapStateToProps = (state) => ({
   isAuthentificated: state.auth.isAuthentificated,
   user: state.auth.user,
-  lang: state.lang.lang,
 });
 
 export default connect(mapStateToProps, { register, push, initSocket })(RegisterForm);

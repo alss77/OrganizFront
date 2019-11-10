@@ -52,7 +52,7 @@ function GroupForm(props) {
   };
 
   const handleSubmit = () => {
-    props.addUserTeam(taskList.id_team, newuser, socket);
+    props.addUserTeam(taskList.team.id, parseInt(newuser, 10), socket);
     toggle();
   };
 

@@ -1,14 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import counterpart from 'counterpart';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import MenuButton from './Menu';
 import ProfilButton from './Profil';
-import { changeLang } from '../store/actions/langActions';
 import fr from '../lang/fr';
 import en from '../lang/en';
 
@@ -68,20 +65,23 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Header(props) {
+function Header() {
   const classes = useStyles();
-  const { lang } = props;
+
+  useEffect(() => {
+    counterpart.setLocale(localStorage.getItem('lang') || 'fr');
+  });
 
   const setLangFr = () => {
     console.log('set to fr');
-    props.changeLang('fr');
-    counterpart.setLocale(lang);
+    counterpart.setLocale(localStorage.getItem('lang'));
+    localStorage.setItem('lang', 'fr');
   };
 
   const setLangEn = () => {
     console.log('set to en');
-    props.changeLang('en');
-    counterpart.setLocale(lang);
+    counterpart.setLocale(localStorage.getItem('lang'));
+    localStorage.setItem('lang', 'en');
   };
 
   return (
@@ -105,17 +105,4 @@ function Header(props) {
   );
 }
 
-Header.propTypes = {
-  changeLang: PropTypes.func.isRequired,
-  lang: PropTypes.string,
-};
-
-Header.defaultProps = {
-  lang: '',
-};
-
-const mapStateToProps = (store) => ({
-  lang: store.lang.lang,
-});
-
-export default connect(mapStateToProps, { changeLang })(Header);
+export default Header;

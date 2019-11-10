@@ -1,6 +1,4 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -8,7 +6,6 @@ import Typography from '@material-ui/core/Typography';
 import counterpart from 'counterpart';
 import Translate from 'react-translate-component';
 import { Link } from '@material-ui/core';
-import { changeLang } from '../store/actions/langActions';
 import fr from '../lang/fr';
 import en from '../lang/en';
 
@@ -30,21 +27,23 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function NavBar(props) {
+function NavBar() {
   const classes = useStyles();
-  const { lang } = props;
-  counterpart.setLocale(lang);
+
+  useEffect(() => {
+    counterpart.setLocale(localStorage.getItem('lang') || 'fr');
+  });
 
   const setLangFr = () => {
     console.log('set to fr');
-    props.changeLang('fr');
-    counterpart.setLocale(lang);
+    counterpart.setLocale(localStorage.getItem('lang'));
+    localStorage.setItem('lang', 'fr');
   };
 
   const setLangEn = () => {
     console.log('set to en');
-    props.changeLang('en');
-    counterpart.setLocale(lang);
+    counterpart.setLocale(localStorage.getItem('lang'));
+    localStorage.setItem('lang', 'en');
   };
 
   return (
@@ -72,17 +71,4 @@ function NavBar(props) {
   );
 }
 
-NavBar.propTypes = {
-  changeLang: PropTypes.func.isRequired,
-  lang: PropTypes.string,
-};
-
-NavBar.defaultProps = {
-  lang: '',
-};
-
-const mapStateToProps = (store) => ({
-  lang: store.lang.lang,
-});
-
-export default connect(mapStateToProps, { changeLang })(NavBar);
+export default NavBar;

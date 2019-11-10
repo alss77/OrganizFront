@@ -16,6 +16,8 @@ import {
   LOAD_GROUP,
   LOAD_ERROR,
   CHANGE_LOAD,
+  LOGOUT_SUCCESS,
+  INIT_ID,
 } from './types';
 
 export const initSocket = () => (dispatch) => {
@@ -68,6 +70,12 @@ export const loadgroup = (token) => (dispatch) => {
     });
 };
 
+export const initId = (groupList, name) => (dispatch) => {
+  dispatch({
+    type: INIT_ID,
+    payload: groupList.find((elm) => elm.name === name).id,
+  });
+};
 export const initTask = (name, groupList, socket) => (dispatch) => {
   // Headers
   const config = {
@@ -77,9 +85,8 @@ export const initTask = (name, groupList, socket) => (dispatch) => {
   };
   const tab = groupList.find((elm) => elm.name === name);
   const body = { id: tab.id };
-  axios.get('http://localhost:4000/user/task', body, config)
+  axios.get('http://localhost:4000/user/team', body, config)
     .then((res) => {
-      console.log(res.data);
       socket.emit('joinRoom', (tab.id).toString());
       dispatch({
         type: INIT_TASK,
@@ -147,5 +154,11 @@ export const addUserTask = (team, socket) => (dispatch) => {
   socket.emit('addUserToTask', team);
   dispatch({
     type: ADD_USER_TASK,
+  });
+};
+
+export const logout = () => (dispatch) => {
+  dispatch({
+    type: LOGOUT_SUCCESS,
   });
 };
