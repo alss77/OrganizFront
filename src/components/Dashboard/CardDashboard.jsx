@@ -13,7 +13,9 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types/prop-types';
 import { push } from 'connected-react-router';
-import { initGroup, initTask, loadingtoggle, initId } from '../../store/actions/socketActions';
+import {
+  initGroup, initTask, loadingtoggle, initId,
+} from '../../store/actions/socketActions';
 import fr from '../../lang/fr';
 import en from '../../lang/en';
 
@@ -34,11 +36,11 @@ const useStyles = makeStyles(() => ({
     alignItems: 'center',
   },
   header: {
-    backgroundColor: 'purple',
+    backgroundColor: '#3F51B5',
   },
   list: {
     width: 500,
-    backgroundColor: 'green',
+    backgroundColor: '#9FA8DA',
     display: 'block',
     marginLeft: 'auto',
     marginRight: 'auto',
@@ -51,7 +53,7 @@ const useStyles = makeStyles(() => ({
     position: 'center',
   },
   ul: {
-    backgroundColor: 'green',
+    backgroundColor: '#9FA8DA',
     padding: 0,
     width: '100%',
   },

@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import Button from '@material-ui/core/Button';
 import { connect } from 'react-redux';
+import Helmet from 'react-helmet';
 import { makeStyles } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
@@ -67,6 +68,9 @@ function LoginForm(props) {
 
   return (
     <div className={classes.container}>
+      <Helmet>
+        <style>{'body { background-color: #F7F5FF; }'}</style>
+      </Helmet>
       <Translate className={classes.h1} component="h1" content="welcome" />
       <Card className={classes.card}>
         <CardHeader title={cardTitle} />

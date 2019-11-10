@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import counterpart from 'counterpart';
@@ -67,6 +68,9 @@ function RegisterForm(props) {
 
   return (
     <div className={classes.container}>
+      <Helmet>
+        <style>{'body { background-color: #F7F5FF; }'}</style>
+      </Helmet>
       <Translate className={classes.h1} component="h1" content="welcome" />
       <Card className={classes.card}>
         <CardHeader

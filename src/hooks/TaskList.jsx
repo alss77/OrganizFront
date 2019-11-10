@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import Helmet from 'react-helmet';
 import PropTypes from 'prop-types/prop-types';
 import { Typography } from '@material-ui/core';
 import counterpart from 'counterpart';
@@ -21,6 +22,9 @@ function TaskList(props) {
 
   return (
     <div>
+      <Helmet>
+        <style>{'body { background-color: #F7F5FF; }'}</style>
+      </Helmet>
       <div>
         <Translate content="taskList.title" component="h1" />
       </div>
