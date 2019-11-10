@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
@@ -46,12 +46,6 @@ function RegisterForm(props) {
   const cardTitle = <Translate content="login.connect" />;
   const classes = useStyles();
 
-  useEffect(() => {
-    if (props.isAuthentificated) {
-      props.push(`/${props.user.firstName}/${props.user.lastName}/dashboard`);
-    }
-  });
-
   const handleChange = (event) => {
     const {
       name, value,
@@ -64,6 +58,7 @@ function RegisterForm(props) {
   const handleSubmit = () => {
     props.register(profile);
     props.initSocket();
+    props.push('/login');
   };
 
   return (
@@ -108,21 +103,9 @@ function RegisterForm(props) {
 }
 
 RegisterForm.propTypes = {
-  isAuthentificated: PropTypes.bool,
   initSocket: PropTypes.func.isRequired,
-  user: PropTypes.oneOfType([PropTypes.object]),
   register: PropTypes.func.isRequired,
   push: PropTypes.func.isRequired,
 };
 
-RegisterForm.defaultProps = {
-  isAuthentificated: false,
-  user: null,
-};
-
-const mapStateToProps = (state) => ({
-  isAuthentificated: state.auth.isAuthentificated,
-  user: state.auth.user,
-});
-
-export default connect(mapStateToProps, { register, push, initSocket })(RegisterForm);
+export default connect(null, { register, push, initSocket })(RegisterForm);

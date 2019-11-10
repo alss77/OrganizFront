@@ -127,6 +127,7 @@ export const retrieveTask = (group, socket) => (dispatch) => {
 
 export const addUserTeam = (teamID, user, socket) => (dispatch) => {
   const body = { teamId: teamID, userId: user };
+  console.log('body(adduser): ', body);
   socket.emit('addUserToTeam', body);
   dispatch({
     type: ADD_USER_TEAM,

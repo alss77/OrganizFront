@@ -50,7 +50,7 @@ function GroupForm(props) {
   const [newuser, changeNewUser] = useState('');
 
   const handleChange = (event) => {
-    changeNewUser(event.target);
+    changeNewUser(event.target.value);
   };
 
   const toggle = () => {
@@ -58,6 +58,7 @@ function GroupForm(props) {
   };
 
   const handleSubmit = () => {
+    console.log('user(adduser): ', newuser);
     props.addUserTeam(taskList.team.id, parseInt(newuser, 10), socket);
     toggle();
   };

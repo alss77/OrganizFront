@@ -19,7 +19,6 @@ const Routes = ({ isAuthentificated }) => (
     <ConnectedRouter history={history}>
       {
         (isAuthentificated) ? (
-          // mettre ton header
           <Header />
         ) : (
             <NavBar />

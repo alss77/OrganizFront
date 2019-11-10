@@ -2,7 +2,6 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT_SUCCESS,
-  REGISTER_SUCCESS,
   REGISTER_FAIL,
 } from '../actions/types';
 
@@ -16,7 +15,6 @@ const initialState = {
 export default function (state = initialState, action) {
   switch (action.type) {
     case LOGIN_SUCCESS:
-    case REGISTER_SUCCESS:
       return {
         ...state,
         user: action.payload.user,
