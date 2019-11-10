@@ -49,10 +49,6 @@ export default function (state = initialState, action) {
     case CREATE_GROUP:
       return {
         ...state,
-        groupList: [
-          ...state.groupList,
-          action.payload,
-        ],
       };
     case CREATE_TASK:
       return {

@@ -18,6 +18,7 @@ import {
   CHANGE_LOAD,
   LOGOUT_SUCCESS,
   INIT_ID,
+  DELETE_TASK,
 } from './types';
 
 export const initSocket = () => (dispatch) => {
@@ -127,6 +128,7 @@ export const retrieveTask = (group, socket) => (dispatch) => {
 
 export const addUserTeam = (teamID, user, socket) => (dispatch) => {
   const body = { teamId: teamID, userId: user };
+  console.log('body(adduser): ', body);
   socket.emit('addUserToTeam', body);
   dispatch({
     type: ADD_USER_TEAM,
@@ -155,6 +157,22 @@ export const addUserTask = (team, socket) => (dispatch) => {
   socket.emit('addUserToTask', team);
   dispatch({
     type: ADD_USER_TASK,
+  });
+};
+
+export const deleteTask = (idtask, socket) => (dispatch) => {
+  socket.emit('deleteTask', { id: idtask });
+  dispatch({
+    type: DELETE_TASK,
+    payload: idtask,
+  });
+};
+
+export const deleteTeam = (idteam, socket) => (dispatch) => {
+  socket.emit('deleteTeam', { id: idteam });
+  dispatch({
+    type: DELETE_TASK,
+    payload: idteam,
   });
 };
 

@@ -12,6 +12,7 @@ import Translate from 'react-translate-component';
 import { createGroup, loadgroup } from '../../store/actions/socketActions';
 import fr from '../../lang/fr';
 import en from '../../lang/en';
+import { bool } from 'prop-types';
 
 counterpart.registerTranslations('fr', fr);
 counterpart.registerTranslations('en', en);
@@ -42,6 +43,7 @@ const mapStateToProps = (state) => ({
   socket: state.socket.socket,
   user: state.auth.user,
   token: state.auth.token,
+  isLoaded: state.socket.isLoaded,
 });
 
 function GroupForm(props) {
@@ -49,13 +51,15 @@ function GroupForm(props) {
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
   const {
-    socket, user, token,
+    socket, user, token, isLoaded,
   } = props;
   const [groupname, changeGroup] = useState('');
 
   const closem = async () => {
     await props.loadgroup(token);
-    changeModalState(false);
+    if (isLoaded === true) {
+      changeModalState(false);
+    }
   };
 
   const openm = () => changeModalState(true);
@@ -97,12 +101,14 @@ GroupForm.propTypes = {
   socket: PropTypes.oneOfType([PropTypes.object]),
   user: PropTypes.oneOfType([PropTypes.object]),
   token: PropTypes.string,
+  isLoaded: PropTypes.bool,
 };
 
 GroupForm.defaultProps = {
   socket: null,
   user: null,
   token: '',
+  isLoaded: bool,
 };
 
 export default connect(mapStateToProps, { createGroup, loadgroup })(GroupForm);

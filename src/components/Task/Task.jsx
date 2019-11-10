@@ -1,5 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types/prop-types';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -10,6 +11,7 @@ import { red } from '@material-ui/core/colors';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Typography from '@material-ui/core/Typography';
 import BuildSharpIcon from '@material-ui/icons/BuildSharp';
+import { deleteTask } from '../../store/actions/socketActions';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -36,7 +38,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Task(props) {
-  const { taskcontent, tasktitle } = props;
+  const {
+    taskcontent, tasktitle, taskid, socket,
+  } = props;
   const classes = useStyles();
 
   return (
@@ -55,7 +59,7 @@ function Task(props) {
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
+        <IconButton onClick={() => props.deleteTask(taskid, socket)} aria-label="add to favorites">
           <DeleteIcon />
         </IconButton>
         <IconButton aria-label="update">
@@ -66,14 +70,23 @@ function Task(props) {
   );
 }
 
+const mapStateToProps = (state) => ({
+  socket: state.socket.socket,
+});
+
 Task.propTypes = {
   taskcontent: PropTypes.string,
   tasktitle: PropTypes.string,
+  taskid: PropTypes.number,
+  deleteTask: PropTypes.func.isRequired,
+  socket: PropTypes.oneOfType([PropTypes.object]),
 };
 
 Task.defaultProps = {
   taskcontent: '',
   tasktitle: '',
+  taskid: 0,
+  socket: null,
 };
 
-export default Task;
+export default connect(mapStateToProps, { deleteTask })(Task);

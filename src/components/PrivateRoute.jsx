@@ -13,12 +13,12 @@ const PrivateRoute = ({ funct: Component, auth }) => (
   />
 );
 
-PrivateRoute.propsTypes = {
+PrivateRoute.propTypes = {
   funct: PropTypes.node.isRequired,
-  auth: PropTypes.bool.isRequired,
+  auth: PropTypes.bool,
 };
 
-PrivateRoute.defaultTypes = {
+PrivateRoute.defaultProps = {
   auth: false,
 };
 

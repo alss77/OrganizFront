@@ -114,7 +114,7 @@ function CardDashboard(props) {
         <List className={classes.list} subheader={<li />}>
           <ul className={classes.ul}>
             <ListSubheader className={classes.header}>
-              <Translate content="dashboard.groupList" />
+              <Translate content="dashboard.groupList" color="inherit" />
             </ListSubheader>
             {
               (groupList.length === 0) ? (
@@ -122,8 +122,8 @@ function CardDashboard(props) {
                   <Translate content="dashboard.groupInfo" />
                 </Typography>
               ) : (
-                  groupList.map(({ name, id }) => (
-                    <ListItem button key={id} onClick={() => listclick(name)}>
+                  groupList.map(({ name }) => (
+                    <ListItem button key={name} onClick={() => listclick(name)}>
                       <ListItemText primary={name} key={name} />
                     </ListItem>
                   ))
