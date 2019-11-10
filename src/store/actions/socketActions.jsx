@@ -77,15 +77,16 @@ export const initId = (groupList, name) => (dispatch) => {
   });
 };
 export const initTask = (name, groupList, socket) => (dispatch) => {
-  // Headers
+  const tab = groupList.find((elm) => elm.name === name);
+  console.log('id: ', tab.id.toString());
+
   const config = {
     headers: {
-      'Content-Type': 'application/json',
+      authorization: (tab.id).toString(),
     },
   };
-  const tab = groupList.find((elm) => elm.name === name);
-  const body = { id: tab.id };
-  axios.get('http://localhost:4000/user/team', body, config)
+
+  axios('http://localhost:4000/user/team', config)
     .then((res) => {
       socket.emit('joinRoom', (tab.id).toString());
       dispatch({
