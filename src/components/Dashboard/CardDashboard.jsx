@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card';
+import counterpart from 'counterpart';
+import Translate from 'react-translate-component';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import List from '@material-ui/core/List';
@@ -12,6 +14,11 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types/prop-types';
 import { push } from 'connected-react-router';
 import { initGroup, initTask, loadingtoggle } from '../../store/actions/socketActions';
+import fr from '../../lang/fr';
+import en from '../../lang/en';
+
+counterpart.registerTranslations('fr', fr);
+counterpart.registerTranslations('en', en);
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -60,6 +67,8 @@ const mapStateToProps = (state) => ({
 
 function CardDashboard(props) {
   const classes = useStyles();
+  const hello = <Translate content="dashboard.hello" />;
+  const subheader = <Translate content="dashboard.subheader" />;
   const [activeGroup, changeActive] = useState('');
   const {
     user, groupList, socket, isLoaded,
@@ -87,20 +96,24 @@ function CardDashboard(props) {
   return (
     <Card className={classes.card}>
       <CardHeader
-        title={`Bonjour ${user.firstName} ${user.lastName}`}
-        subheader="Vous trouverez ici vos tâches et groupes auquel vous appartenez"
+        title={`${hello} ${user.firstName} ${user.lastName}`}
+        subheader={subheader}
       />
       <CardContent>
         <Typography variant="h5" component="h2">
-          Voici votre ID:
+          <Translate content="dashboard.id" />
           {user.id}
         </Typography>
         <List className={classes.list} subheader={<li />}>
           <ul className={classes.ul}>
-            <ListSubheader className={classes.header}>Liste de vos Groupes</ListSubheader>
+            <ListSubheader className={classes.header}>
+              <Translate content="dashboard.groupList" />
+            </ListSubheader>
             {
               (groupList.length === 0) ? (
-                <Typography> Vous ne faites parti de aucun groupe</Typography>
+                <Typography>
+                  <Translate content="dashboard.groupInfo" />
+                </Typography>
               ) : (
                   groupList.map(({ name }) => (
                     <ListItem button onClick={() => listclick(name)} key={name}>
@@ -125,6 +138,7 @@ CardDashboard.propTypes = {
   push: PropTypes.func.isRequired,
   socket: PropTypes.oneOfType([PropTypes.object]),
   isLoaded: PropTypes.bool,
+  lang: PropTypes.string,
 };
 
 CardDashboard.defaultProps = {
@@ -132,6 +146,7 @@ CardDashboard.defaultProps = {
   user: null,
   socket: null,
   isLoaded: false,
+  lang: '',
 };
 
 export default connect(mapStateToProps, {

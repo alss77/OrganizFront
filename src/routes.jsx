@@ -12,6 +12,7 @@ import Dashboard from './hooks/DashBoard';
 import NavBar from './components/NavBar';
 import { history } from './store';
 import TaskList from './hooks/TaskList';
+import Header from './components/Header';
 
 const Routes = ({ isAuthentificated }) => (
   <div>
@@ -19,10 +20,11 @@ const Routes = ({ isAuthentificated }) => (
       {
         (isAuthentificated) ? (
           // mettre ton header
-        ): (
+          <Header />
+        ) : (
             <NavBar />
-    )
-  }
+          )
+      }
       <br />
       <div>
         <Switch>

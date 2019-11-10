@@ -7,7 +7,14 @@ import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types/prop-types';
+import counterpart from 'counterpart';
+import Translate from 'react-translate-component';
 import { createGroup, loadgroup } from '../../store/actions/socketActions';
+import fr from '../../lang/fr';
+import en from '../../lang/en';
+
+counterpart.registerTranslations('fr', fr);
+counterpart.registerTranslations('en', en);
 
 function getModalStyle() {
   const top = 50;
@@ -41,6 +48,7 @@ const mapStateToProps = (state) => ({
 function GroupForm(props) {
   const [modal, changeModalState] = useState(false);
   const classes = useStyles();
+  const formTitle = <Translate content="groupForm.title" />;
   const [modalStyle] = React.useState(getModalStyle);
   const {
     socket, user, token, isLoaded,
@@ -53,7 +61,7 @@ function GroupForm(props) {
       await props.loadgroup(token);
       loading = 1;
     }
-    console.log('loading: ', { test: loading, load: isLoaded })
+    console.log('loading: ', { test: loading, load: isLoaded });
     if (loading === 1 && isLoaded) {
       changeModalState(false);
     }
@@ -70,17 +78,21 @@ function GroupForm(props) {
   return (
     <div>
       <Button onClick={openm}>
-        Creer un groupe
+        <Translate content="groupForm.button" />
       </Button>
       <Modal open={modal} onClose={() => changeModalState(false)}>
         <div style={modalStyle} className={classes.paper}>
-          <h2 id="simple-modal-title">Création de groupe </h2>
+          <h2 id="simple-modal-title">
+            <Translate content="groupForm.title" />
+          </h2>
           <FormControl>
-            <InputLabel htmlFor="component-simple">Nom du groupe</InputLabel>
+            <InputLabel htmlFor="component-simple">
+              <Translate content="groupForm.name" />
+            </InputLabel>
             <Input className="form-control" id="name" onChange={(e) => changeGroup(e.target.value)} type="text" name="name" required />
           </FormControl>
           <Button variant="contained" onClick={handleSubmit}>
-            Create
+            <Translate content="groupForm.submit" />
           </Button>
         </div>
       </Modal>

@@ -6,8 +6,15 @@ import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import { connect } from 'react-redux';
+import counterpart from 'counterpart';
+import Translate from 'react-translate-component';
 import PropTypes from 'prop-types/prop-types';
 import { addTaskTeam, createTask } from '../../store/actions/socketActions';
+import fr from '../../lang/fr';
+import en from '../../lang/en';
+
+counterpart.registerTranslations('fr', fr);
+counterpart.registerTranslations('en', en);
 
 function getModalStyle() {
   const top = 50;
@@ -65,26 +72,32 @@ function TaskForm(props) {
   return (
     <div>
       <Button onClick={toggle}>
-        Ajouter une task
+        <Translate content="taskForm.button" />
       </Button>
       <Modal open={modal} onClose={() => changeModalState(false)}>
         <div style={modalStyle} className={classes.paper}>
-          <h2 id="simple-modal-title">Ajout de task </h2>
+          <h2 id="simple-modal-title">
+            <Translate content="taskForm.title" />
+          </h2>
           <div>
             <FormControl>
-              <InputLabel htmlFor="component-simple">Nom</InputLabel>
+              <InputLabel htmlFor="component-simple">
+                <Translate content="taskForm.name" />
+              </InputLabel>
               <Input className="form-control" name="cardName" id="cardName" onChange={(e) => changeName(e.target.value)} type="text" required />
             </FormControl>
           </div>
           <div>
             <FormControl>
-              <InputLabel htmlFor="component-simple">Description</InputLabel>
+              <InputLabel htmlFor="component-simple">
+                <Translate content="taskForm.content" />
+              </InputLabel>
               <Input className="form-control" name="content" id="content" onChange={(e) => changeContent(e.target.value)} type="text" />
             </FormControl>
           </div>
           <div>
             <Button variant="contained" onClick={handleSubmit}>
-              Create
+              <Translate content="taskForm.submit" />
             </Button>
           </div>
         </div>
