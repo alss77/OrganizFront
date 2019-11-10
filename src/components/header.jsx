@@ -1,12 +1,19 @@
 import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
+import counterpart from 'counterpart';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import InputBase from '@material-ui/core/InputBase';
 import { fade, makeStyles } from '@material-ui/core/styles';
-import SearchIcon from '@material-ui/icons/Search';
 import MenuButton from './menu-button';
 import ProfilButton from './profil-button';
+import { changeLang } from '../actions';
+import fr from '../lang/fr';
+import en from '../lang/en';
+
+counterpart.registerTranslations('fr', fr);
+counterpart.registerTranslations('en', en);
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -61,8 +68,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Header() {
+function Header(props) {
   const classes = useStyles();
+  const { lang } = props;
+
+  const setLangFr = () => {
+    console.log('set to fr');
+    props.changeLang('fr');
+    counterpart.setLocale(lang);
+  };
+
+  const setLangEn = () => {
+    console.log('set to en');
+    props.changeLang('en');
+    counterpart.setLocale(lang);
+  };
 
   return (
     <div className={classes.root}>
@@ -72,6 +92,12 @@ function Header() {
           <Typography className={classes.title} variant="h5" noWrap>
             Organiz
           </Typography>
+          <button type="button" onClick={setLangFr}>
+            FR
+          </button>
+          <button type="button" onClick={setLangEn}>
+            EN
+          </button>
           <ProfilButton />
         </Toolbar>
       </AppBar>
@@ -79,4 +105,17 @@ function Header() {
   );
 }
 
-export default Header;
+Header.propTypes = {
+  changeLang: PropTypes.func.isRequired,
+  lang: PropTypes.string,
+};
+
+Header.defaultProps = {
+  lang: '',
+};
+
+const mapStateToProps = (store) => ({
+  lang: store.langReducer.lang,
+});
+
+export default connect(mapStateToProps, { changeLang })(Header);

@@ -15,7 +15,7 @@ counterpart.registerTranslations('fr', fr);
 counterpart.registerTranslations('en', en);
 
 const options = [
-  <Translate content="menu_button.accueil" />,
+  <Translate content="menu_button.dashboard" />,
 ];
 
 const screen = [
