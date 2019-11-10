@@ -1,17 +1,27 @@
 import React from 'react';
 import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import MenuItem from '@material-ui/core/MenuItem';
 import AccountCircle from '@material-ui/icons/AccountCircle';
+import counterpart from 'counterpart';
+import Translate from 'react-translate-component';
+import fr from '../lang/fr';
+import en from '../lang/en';
+
+counterpart.registerTranslations('fr', fr);
+counterpart.registerTranslations('en', en);
 
 const options = [
-  'Profil',
-  'Log out',
+  <Translate content="disconnect" />,
 ];
 
 const ITEM_HEIGHT = 48;
 
-export default function LongMenu() {
+function LongMenu(props) {
+  const { lang } = props;
+  counterpart.setLocale(lang);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
@@ -55,3 +65,18 @@ export default function LongMenu() {
     </div>
   );
 }
+
+LongMenu.propTypes = {
+  changeLang: PropTypes.func.isRequired,
+  lang: PropTypes.string,
+};
+
+LongMenu.defaultProps = {
+  lang: '',
+};
+
+const mapStateToProps = (store) => ({
+  lang: store.langReducer.lang,
+});
+
+export default connect(mapStateToProps, null)(LongMenu);

@@ -7,7 +7,7 @@ import io from 'socket.io-client';
 import Header from '../components/header';
 
 const TaskForm = () => {
-  const socket = io('http://localhost:4000');
+  const socket = io();
   const { register, handleSubmit } = useForm();
 
   function generateToken() {
