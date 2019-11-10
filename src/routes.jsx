@@ -13,6 +13,7 @@ import NavBar from './components/NavBar';
 import { history } from './store';
 import TaskList from './hooks/TaskList';
 import Header from './components/Header';
+import NotFound from './hooks/NotFound';
 
 const Routes = ({ isAuthentificated }) => (
   <div>
@@ -39,8 +40,9 @@ const Routes = ({ isAuthentificated }) => (
             funct={Dashboard}
           />
           <Route exact path="/login" component={LoginForm} />
-          <Route path="/register" component={RegisterForm} />
+          <Route exact path="/register" component={RegisterForm} />
           <Route exact path="/" component={LoginForm} />
+          <Route exact path="/*" component={NotFound} />
         </Switch>
       </div>
     </ConnectedRouter>

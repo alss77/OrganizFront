@@ -5,7 +5,6 @@ import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
-import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import { red } from '@material-ui/core/colors';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -43,13 +42,12 @@ function Task(props) {
   return (
     <Card className={classes.card}>
       <CardHeader
-        avatar={(
+        /* avatar={(
           <Avatar aria-label="recipe" className={classes.avatar}>
             TS
           </Avatar>
-        )}
+        )} */
         title={tasktitle}
-        subheader="September 14, 2016"
       />
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
@@ -76,6 +74,6 @@ Task.propTypes = {
 Task.defaultProps = {
   taskcontent: '',
   tasktitle: '',
-}
+};
 
 export default Task;

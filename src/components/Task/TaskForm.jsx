@@ -60,7 +60,6 @@ function TaskForm(props) {
     const body = {
       content: tcontent, cardName: tcardName, team: taskList.team, users: [{ id: user.id }],
     };
-    console.log('body: ', body);
     props.createTask(body, socket);
     toggle();
   };

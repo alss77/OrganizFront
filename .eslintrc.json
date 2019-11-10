@@ -3,7 +3,12 @@
     "airbnb",
     "airbnb/hooks"
   ],
-  "rules": {},
+  "rules": {
+    "linebreak-style": [
+      "error",
+      "windows"
+    ]
+  },
   "env": {
     "browser": true,
     "node": true

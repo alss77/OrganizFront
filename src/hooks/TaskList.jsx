@@ -35,7 +35,6 @@ function TaskList(props) {
         <UserForm />
       </div>
       <div>
-        {console.log('list: ', tlist)}
         {
           (tlist.team.task.length > 0) ? (
             tlist.team.task.map((task) => (
