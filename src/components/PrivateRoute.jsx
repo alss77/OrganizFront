@@ -6,19 +6,19 @@ import PropTypes from 'prop-types';
 
 const PrivateRoute = ({ funct: Component, auth }) => (
   <Route
-    render={(props) => (auth ? (
-      <Component {...props} />
+    render={() => (auth ? (
+      <Component />
     ) : (<Redirect to={{ pathname: '/login' }} />)
     )}
   />
 );
 
-PrivateRoute.propsTypes = {
+PrivateRoute.propTypes = {
   funct: PropTypes.node.isRequired,
-  auth: PropTypes.bool.isRequired,
+  auth: PropTypes.bool,
 };
 
-PrivateRoute.defaultTypes = {
+PrivateRoute.defaultProps = {
   auth: false,
 };
 
