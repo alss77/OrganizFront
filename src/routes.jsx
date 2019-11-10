@@ -1,22 +1,64 @@
 import React from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import {
+  Route, Switch,
+} from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { ConnectedRouter } from 'connected-react-router';
+import PrivateRoute from './components/PrivateRoute';
+import RegisterForm from './hooks/RegisterForm';
+import LoginForm from './hooks/LoginForm';
+import Dashboard from './hooks/DashBoard';
+import NavBar from './components/NavBar';
+import { history } from './store';
+import TaskList from './hooks/TaskList';
+import Header from './components/Header';
+import NotFound from './hooks/NotFound';
 
-import App from './App';
-import TaskList from './screens/task-list';
-import TaskForm from './screens/task-form';
-import GroupForm from './screens/group-form';
-import GroupList from './screens/group-list';
+const Routes = ({ isAuthentificated }) => (
+  <div>
+    <ConnectedRouter history={history}>
+      {
+        (isAuthentificated) ? (
+          // mettre ton header
+          <Header />
+        ) : (
+            <NavBar />
+          )
+      }
+      <br />
+      <div>
+        <Switch>
+          <PrivateRoute
+            path="/group/:name"
+            auth={isAuthentificated}
+            funct={TaskList}
+          />
+          <PrivateRoute
+            path="/:firstname/:lastname/dashboard"
+            auth={isAuthentificated}
+            funct={Dashboard}
+          />
+          <Route exact path="/login" component={LoginForm} />
+          <Route exact path="/register" component={RegisterForm} />
+          <Route exact path="/" component={LoginForm} />
+          <Route exact path="/*" component={NotFound} />
+        </Switch>
+      </div>
+    </ConnectedRouter>
+  </div>
+);
 
-function Routes() {
-  return (
-    <Router>
-      <Route path="/" exact component={App} />
-      <Route path="/task-list" exact component={TaskList} />
-      <Route path="/group-list" exact component={GroupList} />
-      <Route path="/task-form" exact component={TaskForm} />
-      <Route path="/group-form" exact component={GroupForm} />
-    </Router>
-  );
-}
+Routes.propTypes = {
+  isAuthentificated: PropTypes.bool,
+};
 
-export default Routes;
+const mapStateToProps = (state) => ({
+  isAuthentificated: state.auth.isAuthentificated,
+});
+
+Routes.defaultProps = {
+  isAuthentificated: null,
+};
+
+export default connect(mapStateToProps)(Routes);

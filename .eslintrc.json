@@ -1,0 +1,16 @@
+{
+  "extends": [
+    "airbnb",
+    "airbnb/hooks"
+  ],
+  "rules": {
+    "linebreak-style": [
+      "error",
+      "windows"
+    ]
+  },
+  "env": {
+    "browser": true,
+    "node": true
+  }
+}
