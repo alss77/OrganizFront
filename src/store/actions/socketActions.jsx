@@ -13,6 +13,9 @@ import {
   NO_GROUPS,
   CREATE_TASK,
   INIT_TASK_FAIL,
+  LOAD_GROUP,
+  LOAD_ERROR,
+  CHANGE_LOAD,
 } from './types';
 
 export const initSocket = () => (dispatch) => {
@@ -20,6 +23,12 @@ export const initSocket = () => (dispatch) => {
   dispatch({
     type: INIT_SOCKET,
     payload: socket,
+  });
+};
+
+export const loadingtoggle = () => (dispatch) => {
+  dispatch({
+    type: CHANGE_LOAD,
   });
 };
 
@@ -36,33 +45,53 @@ export const initGroup = (user) => (dispatch) => {
   }
 };
 
-export const initTask = (name, groupList, socket /* token */) => (dispatch) => {
+export const loadgroup = (token) => (dispatch) => {
   // Headers
-  /* const config = {
+  const config = {
     headers: {
       authorization: `bearer ${token}`,
     },
   };
-  console.log('config: ', config);
   axios.get('http://localhost:4000/user/me', config)
     .then((res) => {
-      console.log(res.data); */
+      console.log(res.data);
+      dispatch({
+        type: LOAD_GROUP,
+        payload: res.data.teams,
+      });
+    })
+    .catch((/* err */) => {
+      // dispatch(returnErrors(err.response.data, err.response.status));
+      dispatch({
+        type: LOAD_ERROR,
+      });
+    });
+};
 
-  // Connected, let's sign-up for to receive messages for this room
+export const initTask = (name, groupList, socket) => (dispatch) => {
+  // Headers
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
   const tab = groupList.find((elm) => elm.name === name);
-  socket.emit('joinRoom', (tab.id).toString());
-  dispatch({
-    type: INIT_TASK,
-    // payload: res.data.teams.find((elm) => elm.name === name),
-    payload: groupList.find((elm) => elm.name === name),
-  });
-  /* })
-    .catch() => {
+  const body = { id: tab.id };
+  axios.get('http://localhost:4000/user/task', body, config)
+    .then((res) => {
+      console.log(res.data);
+      socket.emit('joinRoom', (tab.id).toString());
+      dispatch({
+        type: INIT_TASK,
+        payload: res.data,
+      });
+    })
+    .catch(() => {
       // dispatch(returnErrors(err.response.data, err.response.status));
       dispatch({
         type: INIT_TASK_FAIL,
       });
-    }); */
+    });
 };
 
 export const createGroup = (group, socket) => (dispatch) => {

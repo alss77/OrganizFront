@@ -12,7 +12,7 @@ import {
 } from './types';
 
 // Check token && load user
-export const loaduser = (token) => (dispatch) => {
+export const loadgroup = (token = '') => (dispatch) => {
   console.log('load the user');
   // Headers
   const config = {
@@ -20,13 +20,12 @@ export const loaduser = (token) => (dispatch) => {
       authorization: `bearer ${token}`,
     },
   };
-
   axios.get('http://localhost:4000/user/me', config)
     .then((res) => {
       console.log(res.data);
       dispatch({
         type: USER_LOADED,
-        payload: res.data,
+        payload: res.data.teams,
       });
     })
     .catch((/* err */) => {

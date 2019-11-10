@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card';
@@ -11,7 +11,7 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types/prop-types';
 import { push } from 'connected-react-router';
-import { initGroup, initTask } from '../../store/actions/socketActions';
+import { initGroup, initTask, loadingtoggle } from '../../store/actions/socketActions';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -55,21 +55,33 @@ const mapStateToProps = (state) => ({
   socket: state.socket.socket,
   groupList: state.socket.groupList,
   token: state.auth.token,
+  isLoaded: state.socket.isLoaded,
 });
 
 function CardDashboard(props) {
   const classes = useStyles();
-  const { user, groupList, socket } = props;
+  const [activeGroup, changeActive] = useState('');
+  const {
+    user, groupList, socket, isLoaded,
+  } = props;
 
   useEffect(() => {
+    props.loadingtoggle();
     if (groupList.length === 0) {
       props.initGroup(user);
     }
   }, [props, groupList, user]);
 
+  useEffect(() => {
+    if (isLoaded && activeGroup !== '') {
+      props.push(`/group/${activeGroup}`);
+      props.loadingtoggle();
+    }
+  }, [props, isLoaded, activeGroup]);
+
   const listclick = async (lname) => {
-    await props.initTask(lname, groupList, socket /* token */);
-    props.push(`/group/${lname}`);
+    changeActive(lname);
+    await props.initTask(lname, groupList, socket);
   };
 
   return (
@@ -87,7 +99,7 @@ function CardDashboard(props) {
           <ul className={classes.ul}>
             <ListSubheader className={classes.header}>Liste de vos Groupes</ListSubheader>
             {
-              (groupList.empty) ? (
+              (groupList.length === 0) ? (
                 <Typography> Vous ne faites parti de aucun groupe</Typography>
               ) : (
                   groupList.map(({ name }) => (
@@ -105,18 +117,23 @@ function CardDashboard(props) {
 }
 
 CardDashboard.propTypes = {
+  loadingtoggle: PropTypes.func.isRequired,
   initGroup: PropTypes.func.isRequired,
   initTask: PropTypes.func.isRequired,
   groupList: PropTypes.oneOfType([PropTypes.array]),
   user: PropTypes.oneOfType([PropTypes.object]),
   push: PropTypes.func.isRequired,
   socket: PropTypes.oneOfType([PropTypes.object]),
+  isLoaded: PropTypes.bool,
 };
 
 CardDashboard.defaultProps = {
   groupList: [],
   user: null,
   socket: null,
+  isLoaded: false,
 };
 
-export default connect(mapStateToProps, { initGroup, push, initTask })(CardDashboard);
+export default connect(mapStateToProps, {
+  initGroup, push, initTask, loadingtoggle,
+})(CardDashboard);

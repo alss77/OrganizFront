@@ -96,13 +96,13 @@ function TaskForm(props) {
 TaskForm.propTypes = {
   addTaskTeam: PropTypes.func.isRequired,
   createTask: PropTypes.func.isRequired,
-  taskList: PropTypes.oneOfType([PropTypes.object]),
+  taskList: PropTypes.oneOfType([PropTypes.array]),
   user: PropTypes.oneOfType([PropTypes.object]),
   socket: PropTypes.oneOfType([PropTypes.object]),
 };
 
 TaskForm.defaultProps = {
-  taskList: null,
+  taskList: [],
   user: null,
   socket: null,
 };

@@ -27,3 +27,5 @@ export const GET_USERS = 'GET_USERS';
 export const GET_USERS_FAIL = 'GET_USERS_FAIL';
 export const CREATE_TASK = 'CREATE_TASK';
 export const INIT_TASK_FAIL = 'INIT_TASK_FAIL';
+export const LOAD_ERROR = 'LOAD_ERROR';
+export const CHANGE_LOAD = 'CHANGE_LOAD';

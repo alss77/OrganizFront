@@ -10,8 +10,7 @@ import CardHeader from '@material-ui/core/CardHeader';
 import PropTypes from 'prop-types';
 import { push } from 'connected-react-router';
 import { login } from '../store/actions/authActions';
-import { initSocket } from '../store/actions/socketActions';
-
+import { initSocket, loadingtoggle } from '../store/actions/socketActions';
 
 const mapStateToProps = (state) => ({
   isAuthentificated: state.auth.isAuthentificated,
@@ -42,18 +41,19 @@ function LoginForm(props) {
   const classes = useStyles();
 
   useEffect(() => {
-    if (props.isAuthentificated) {
+    if (props.isAuthentificated && props.user != null) {
       props.push(`/${props.user.firstName}/${props.user.lastName}/dashboard`);
+      props.loadingtoggle();
     }
-  });
+  }, [props]);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
     setProfile({ ...profile, [name]: value });
   };
 
-  const handleSubmit = () => {
-    props.login(profile);
+  const handleSubmit = async () => {
+    await props.login(profile);
     props.initSocket();
   };
 
@@ -85,7 +85,7 @@ function LoginForm(props) {
           </FormControl>
         </div>
         <div>
-          <Button variant="contained" onClick={handleSubmit}>
+          <Button variant="contained" onClick={() => handleSubmit()}>
             Login
           </Button>
         </div>
@@ -100,6 +100,7 @@ LoginForm.propTypes = {
   user: PropTypes.oneOfType([PropTypes.object]),
   login: PropTypes.func.isRequired,
   push: PropTypes.func.isRequired,
+  loadingtoggle: PropTypes.func.isRequired,
 };
 
 LoginForm.defaultProps = {
@@ -109,5 +110,7 @@ LoginForm.defaultProps = {
 
 export default connect(
   mapStateToProps,
-  { login, push, initSocket },
+  {
+    login, push, initSocket, loadingtoggle,
+  },
 )(LoginForm);

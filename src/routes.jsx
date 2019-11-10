@@ -16,7 +16,13 @@ import TaskList from './hooks/TaskList';
 const Routes = ({ isAuthentificated }) => (
   <div>
     <ConnectedRouter history={history}>
-      <NavBar />
+      {
+        (isAuthentificated) ? (
+          // mettre ton header
+        ): (
+            <NavBar />
+    )
+  }
       <br />
       <div>
         <Switch>
