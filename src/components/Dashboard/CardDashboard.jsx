@@ -67,7 +67,6 @@ const mapStateToProps = (state) => ({
 
 function CardDashboard(props) {
   const classes = useStyles();
-  const hello = <Translate content="dashboard.hello" />;
   const subheader = <Translate content="dashboard.subheader" />;
   const [activeGroup, changeActive] = useState('');
   const {
@@ -96,7 +95,7 @@ function CardDashboard(props) {
   return (
     <Card className={classes.card}>
       <CardHeader
-        title={`${hello} ${user.firstName} ${user.lastName}`}
+        title={`${user.firstName} ${user.lastName}`}
         subheader={subheader}
       />
       <CardContent>
@@ -115,8 +114,8 @@ function CardDashboard(props) {
                   <Translate content="dashboard.groupInfo" />
                 </Typography>
               ) : (
-                  groupList.map(({ name }) => (
-                    <ListItem button onClick={() => listclick(name)} key={name}>
+                  groupList.map(({ name, id }) => (
+                    <ListItem button onClick={() => listclick(name)} key={id}>
                       <ListItemText primary={name} />
                     </ListItem>
                   ))

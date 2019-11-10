@@ -14,68 +14,68 @@ counterpart.registerTranslations('fr', fr);
 counterpart.registerTranslations('en', en);
 
 const options = [
-    <Translate content="disconnect" />,
+  <Translate content="disconnect" />,
 ];
 
 const ITEM_HEIGHT = 48;
 
 function LongMenu(props) {
-    const { lang } = props;
-    counterpart.setLocale(lang);
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const open = Boolean(anchorEl);
+  const { lang } = props;
+  counterpart.setLocale(lang);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
 
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
 
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
-    return (
-        <div>
-            <IconButton
-                aria-label="more"
-                aria-controls="long-menu"
-                aria-haspopup="true"
-                onClick={handleClick}
-            >
-                <AccountCircle />
-            </IconButton>
-            <Menu
-                id="long-menu"
-                anchorEl={anchorEl}
-                keepMounted
-                open={open}
-                onClose={handleClose}
-                PaperProps={{
-                    style: {
-                        maxHeight: ITEM_HEIGHT * 4.5,
-                        width: 200,
-                    },
-                }}
-            >
-                {options.map((option) => (
-                    <MenuItem key={option} onClick={handleClose}>
-                        {option}
-                    </MenuItem>
-                ))}
-            </Menu>
-        </div>
-    );
+  return (
+    <div>
+      <IconButton
+        aria-label="more"
+        aria-controls="long-menu"
+        aria-haspopup="true"
+        onClick={handleClick}
+      >
+        <AccountCircle />
+      </IconButton>
+      <Menu
+        id="long-menu"
+        anchorEl={anchorEl}
+        keepMounted
+        open={open}
+        onClose={handleClose}
+        PaperProps={{
+          style: {
+            maxHeight: ITEM_HEIGHT * 4.5,
+            width: 200,
+          },
+        }}
+      >
+        {options.map((option) => (
+          <MenuItem key={option} onClick={handleClose}>
+            {option}
+          </MenuItem>
+        ))}
+      </Menu>
+    </div>
+  );
 }
 
 LongMenu.propTypes = {
-    lang: PropTypes.string,
+  lang: PropTypes.string,
 };
 
 LongMenu.defaultProps = {
-    lang: '',
+  lang: '',
 };
 
 const mapStateToProps = (store) => ({
-    lang: store.langReducer.lang,
+  lang: store.lang.lang,
 });
 
 export default connect(mapStateToProps, null)(LongMenu);

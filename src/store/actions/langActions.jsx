@@ -1,6 +1,11 @@
-import { CHANGE_LANG } from './types';
+import { CHANGE_LANG, TOTO } from './types';
 
 export const changeLang = (event) => (dispatch) => {
-    console.log('called');
-    dispatch({ type: CHANGE_LANG, payload: event });
+  dispatch({ type: CHANGE_LANG, payload: event });
+};
+
+export const toto = () => (dispatch) => {
+  dispatch({
+    type: TOTO,
+  });
 };

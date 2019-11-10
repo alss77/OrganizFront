@@ -48,7 +48,6 @@ const mapStateToProps = (state) => ({
 function GroupForm(props) {
   const [modal, changeModalState] = useState(false);
   const classes = useStyles();
-  const formTitle = <Translate content="groupForm.title" />;
   const [modalStyle] = React.useState(getModalStyle);
   const {
     socket, user, token, isLoaded,

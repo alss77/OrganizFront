@@ -1,12 +1,7 @@
 {
-    "extends": [
-        "airbnb",
-        "airbnb/hooks"
-    ],
-    "rules": {
-        "linebreak-style": [
-            "error",
-            "windows"
-        ]
-    }
+  "extends": [
+    "airbnb",
+    "airbnb/hooks"
+  ],
+  "rules": {}
 }
