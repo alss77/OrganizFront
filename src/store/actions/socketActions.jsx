@@ -15,7 +15,7 @@ import {
   INIT_TASK_FAIL,
   LOAD_GROUP,
   LOAD_ERROR,
-  CHANGE_LOAD,
+  RECEIVE_GROUP,
   LOGOUT_SUCCESS,
   INIT_ID,
   DELETE_TASK,
@@ -29,13 +29,15 @@ export const initSocket = () => (dispatch) => {
   });
 };
 
-export const loadingtoggle = () => (dispatch) => {
-  dispatch({
-    type: CHANGE_LOAD,
+export const listenGroup = (socket, user) => (dispatch) => {
+  console.log('listening on ', user.id);
+  socket.on(`${user.id}`, (msg) => {
+    dispatch({ payload: msg, type: RECEIVE_GROUP });
   });
 };
 
 export const initGroup = (user) => (dispatch) => {
+  console.log('init group');
   if (Object.keys(user).includes('teams')) {
     dispatch({
       type: INIT_GROUPS,
@@ -49,6 +51,7 @@ export const initGroup = (user) => (dispatch) => {
 };
 
 export const loadgroup = (token) => (dispatch) => {
+  console.log('loading group');
   // Headers
   const config = {
     headers: {
@@ -77,6 +80,7 @@ export const initId = (groupList, name) => (dispatch) => {
     payload: groupList.find((elm) => elm.name === name).id,
   });
 };
+
 export const initTask = (name, groupList, socket) => (dispatch) => {
   const tab = groupList.find((elm) => elm.name === name);
   console.log('id: ', tab.id.toString());
@@ -103,9 +107,9 @@ export const initTask = (name, groupList, socket) => (dispatch) => {
     });
 };
 
-export const createGroup = (group, socket) => (dispatch) => {
+export const createGroup = (group, socket) => async (dispatch) => {
   if (group.name.length > 3) {
-    socket.emit('createTeam', group);
+    await socket.emit('createTeam', group);
     dispatch({
       type: CREATE_GROUP,
       payload: group,

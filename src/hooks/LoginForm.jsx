@@ -13,7 +13,7 @@ import CardHeader from '@material-ui/core/CardHeader';
 import PropTypes from 'prop-types';
 import { push } from 'connected-react-router';
 import { login } from '../store/actions/authActions';
-import { initSocket, loadingtoggle } from '../store/actions/socketActions';
+import { initSocket, listenGroup } from '../store/actions/socketActions';
 import fr from '../lang/fr';
 import en from '../lang/en';
 
@@ -23,6 +23,7 @@ counterpart.registerTranslations('en', en);
 const mapStateToProps = (state) => ({
   isAuthentificated: state.auth.isAuthentificated,
   user: state.auth.user,
+  socket: state.socket.socket,
 });
 
 const useStyles = makeStyles((theme) => ({
@@ -51,8 +52,8 @@ function LoginForm(props) {
 
   useEffect(() => {
     if (props.isAuthentificated && props.user != null) {
+      props.listenGroup(props.socket, props.user);
       props.push(`/${props.user.firstName}/${props.user.lastName}/dashboard`);
-      props.loadingtoggle();
     }
   }, [props]);
 
@@ -91,6 +92,7 @@ function LoginForm(props) {
               <Translate content="login.password" />
             </InputLabel>
             <Input
+              // type="password"
               name="password"
               id="password"
               value={profile.password}
@@ -111,20 +113,22 @@ function LoginForm(props) {
 LoginForm.propTypes = {
   isAuthentificated: PropTypes.bool,
   initSocket: PropTypes.func.isRequired,
+  listenGroup: PropTypes.func.isRequired,
   user: PropTypes.oneOfType([PropTypes.object]),
+  socket: PropTypes.oneOfType([PropTypes.object]),
   login: PropTypes.func.isRequired,
   push: PropTypes.func.isRequired,
-  loadingtoggle: PropTypes.func.isRequired,
 };
 
 LoginForm.defaultProps = {
   isAuthentificated: null,
   user: null,
+  socket: null,
 };
 
 export default connect(
   mapStateToProps,
   {
-    login, push, initSocket, loadingtoggle,
+    login, push, initSocket, listenGroup,
   },
 )(LoginForm);

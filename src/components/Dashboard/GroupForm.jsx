@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Modal from '@material-ui/core/Modal';
 import { makeStyles } from '@material-ui/core/styles';
 import { Button } from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import { connect } from 'react-redux';
@@ -12,7 +13,6 @@ import Translate from 'react-translate-component';
 import { createGroup, loadgroup } from '../../store/actions/socketActions';
 import fr from '../../lang/fr';
 import en from '../../lang/en';
-import { bool } from 'prop-types';
 
 counterpart.registerTranslations('fr', fr);
 counterpart.registerTranslations('en', en);
@@ -43,7 +43,7 @@ const mapStateToProps = (state) => ({
   socket: state.socket.socket,
   user: state.auth.user,
   token: state.auth.token,
-  isLoaded: state.socket.isLoaded,
+  isLoading: state.socket.isLoading,
 });
 
 function GroupForm(props) {
@@ -51,23 +51,23 @@ function GroupForm(props) {
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
   const {
-    socket, user, token, isLoaded,
+    socket, user, token, isLoading,
   } = props;
   const [groupname, changeGroup] = useState('');
+  const [clicked, changeClicked] = useState(false);
 
-  const closem = async () => {
-    await props.loadgroup(token);
-    if (isLoaded === true) {
+  useEffect(() => {
+    if (!isLoading && clicked) {
       changeModalState(false);
     }
-  };
+  }, [props, isLoading, clicked, token]);
 
   const openm = () => changeModalState(true);
 
   const handleSubmit = async () => {
     const body = { name: groupname, users: [{ id: user.id }] };
     await props.createGroup(body, socket);
-    closem();
+    changeClicked(true);
   };
 
   return (
@@ -86,8 +86,14 @@ function GroupForm(props) {
             </InputLabel>
             <Input className="form-control" id="name" onChange={(e) => changeGroup(e.target.value)} type="text" name="name" required />
           </FormControl>
-          <Button variant="contained" onClick={handleSubmit}>
-            <Translate content="groupForm.submit" />
+          <Button variant="contained" onClick={handleSubmit} disabled={isLoading}>
+            {
+              (isLoading) ? (
+                <CircularProgress />
+              ) : (
+                  <Translate content="groupForm.submit" />
+                )
+            }
           </Button>
         </div>
       </Modal>
@@ -96,19 +102,19 @@ function GroupForm(props) {
 }
 
 GroupForm.propTypes = {
+  // loadgroup: PropTypes.func.isRequired,
   createGroup: PropTypes.func.isRequired,
-  loadgroup: PropTypes.func.isRequired,
   socket: PropTypes.oneOfType([PropTypes.object]),
   user: PropTypes.oneOfType([PropTypes.object]),
+  isLoading: PropTypes.bool,
   token: PropTypes.string,
-  isLoaded: PropTypes.bool,
 };
 
 GroupForm.defaultProps = {
   socket: null,
   user: null,
+  isLoading: false,
   token: '',
-  isLoaded: bool,
 };
 
 export default connect(mapStateToProps, { createGroup, loadgroup })(GroupForm);

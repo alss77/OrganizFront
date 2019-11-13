@@ -35,6 +35,7 @@ function TaskList(props) {
         <UserForm />
       </div>
       <div>
+        {console.log(tlist)}
         {
           (tlist.team.task.length > 0) ? (
             tlist.team.task.map((task) => (
@@ -64,4 +65,4 @@ TaskList.defaultProps = {
   tlist: null,
 };
 
-export default connect(mapStateToProps)(TaskList);
+export default connect(mapStateToProps, null)(TaskList);

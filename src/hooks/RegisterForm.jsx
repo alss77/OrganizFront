@@ -89,7 +89,7 @@ function RegisterForm(props) {
           <Input name="email" id="email" value={profile.email} onChange={handleChange} />
         </FormControl>
         <FormControl className={classes.formControl}>
-          <InputLabel htmlFor="component-simple">
+          <InputLabel password="true" htmlFor="component-simple">
             <Translate content="register.password" />
           </InputLabel>
           <Input name="password" id="password" value={profile.password} onChange={handleChange} />
